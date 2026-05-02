@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casamento — Gestão Premium v3</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--cr:#FAF6F0;--gd:#C9A155;--gdd:#9A7830;--rs:#7B3055;--rsl:#E8D0DC;
+--dk:#1E1208;--tx:#3D2B1F;--tm:#8D7060;--bd:#E5D5C5;--cd:#FFFFFF;
+--bg:#F5EFE8;--ok:#2D7D5C;--wn:#B87B15;--er:#A02828;--inf:#1B5E89;
+--sb:#2C1810;--st:#E8D0C0;--sa:#C9A155;
+}
+body{font-family:'Raleway',sans-serif;background:var(--bg);color:var(--tx);overflow:hidden}
+h1,h2,h3{font-family:'Cormorant Garamond',serif}
+#root{display:flex;height:100vh}
+.sb{width:210px;min-width:210px;background:var(--sb);display:flex;flex-direction:column;height:100vh;overflow-y:auto}
+.sbh{padding:22px 18px 18px;border-bottom:1px solid rgba(255,255,255,.1);text-align:center}
+.sbh h1{color:var(--gd);font-size:19px;font-style:italic}
+.sbh p{color:var(--st);font-size:9px;letter-spacing:2px;text-transform:uppercase;opacity:.7;margin-top:2px}
+.sbn{padding:10px 0;flex:1}
+.ni{display:flex;align-items:center;gap:10px;padding:10px 18px;cursor:pointer;color:var(--st);font-size:12.5px;transition:all .2s;border-left:3px solid transparent}
+.ni:hover{background:rgba(255,255,255,.05);color:#fff}
+.ni.ac{background:rgba(201,161,85,.15);color:var(--gd);border-left-color:var(--gd)}
+.sbf{padding:14px 18px;border-top:1px solid rgba(255,255,255,.1)}
+.cntd{text-align:center}
+.cntd-d{font-family:'Cormorant Garamond',serif;font-size:40px;color:var(--gd);line-height:1}
+.cntd-l{font-size:9px;color:var(--st);text-transform:uppercase;letter-spacing:2px;opacity:.7}
+.mn{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.mnh{background:var(--cd);border-bottom:1px solid var(--bd);padding:13px 24px;display:flex;justify-content:space-between;align-items:center}
+.mnh h2{font-size:21px;color:var(--rs);font-style:italic}
+.mc{flex:1;overflow-y:auto;padding:22px}
+.card{background:var(--cd);border:1px solid var(--bd);border-radius:12px;padding:16px}
+.ct{font-size:16px;color:var(--rs);margin-bottom:12px;font-family:'Cormorant Garamond',serif}
+.kpi-row{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.kpi{flex:1;min-width:110px;background:var(--cd);border:1px solid var(--bd);border-radius:10px;padding:12px;text-align:center}
+.kpi-v{font-family:'Cormorant Garamond',serif;font-size:26px;line-height:1;font-weight:600}
+.kpi-l{font-size:9px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-top:3px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:16px}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10.5px;font-weight:500}
+.bA{background:#F7E8DC;color:#8B3A20}.bB{background:#DDE8F5;color:#1B4F8A}
+.bC{background:#E8F5E8;color:#1B5E35}.bD{background:#F5E8F5;color:#6B2080}.bF{background:#F0F0F0;color:#555}
+.b-ok{background:#D8F5E8;color:#1B5E35}.b-er{background:#F5D8D8;color:#7B1F1F}
+.b-wn{background:#FFF3D8;color:#7B5800}.b-ng{background:#F0F0F0;color:#666}
+.b-sb{background:#E8EFF8;color:#2856A0}
+.pipe-lead{background:#F0F0F0;color:#555}
+.pipe-aval{background:#EAF3FE;color:#1B5E89}
+.pipe-nego{background:#FFF3D8;color:#7B5800}
+.pipe-prop{background:#F5E8F5;color:#6B2080}
+.pipe-fech{background:#D8F5E8;color:#1B5E35}
+.pipe-ass{background:#C8F0D8;color:#0E4D2A}
+.pipe-canc{background:#F5D8D8;color:#7B1F1F}
+.dt{width:100%;border-collapse:collapse;font-size:12.5px}
+.dt th{background:var(--bg);padding:8px 12px;text-align:left;font-weight:600;color:var(--tm);font-size:10px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--bd)}
+.dt td{padding:8px 12px;border-bottom:1px solid var(--bd);vertical-align:middle}
+.dt tr:hover td{background:#FAF5EF}
+.dt tr:last-child td{border-bottom:none}
+.rs{font-size:11px;padding:3px 6px;border:1px solid var(--bd);border-radius:5px;background:#fff;color:var(--tx);max-width:175px}
+.fb{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:13px}
+.fbt{padding:5px 12px;border:1px solid var(--bd);border-radius:20px;font-size:11px;cursor:pointer;background:#fff;color:var(--tm);transition:all .2s}
+.fbt.ac{background:var(--rs);color:#fff;border-color:var(--rs)}
+.si{padding:6px 13px;border:1px solid var(--bd);border-radius:20px;font-size:12px;outline:none;flex:1;max-width:200px;background:#fff}
+.si:focus{border-color:var(--gd)}
+.btn{border:none;padding:7px 15px;border-radius:8px;font-size:12px;cursor:pointer;font-family:'Raleway',sans-serif;font-weight:500;transition:all .2s}
+.bp{background:var(--rs);color:#fff}.bp:hover{background:#6B2040}
+.bs{background:#fff;color:var(--rs);border:1px solid var(--rs)}
+.bg{background:var(--ok);color:#fff}
+.bw{background:var(--wn);color:#fff}
+.bsm{padding:4px 10px;font-size:11px}
+.bdl{background:#fff;color:var(--er);border:1px solid var(--bd);padding:4px 9px;border-radius:6px;cursor:pointer;font-size:11px}
+.tbr{display:flex;gap:2px;margin-bottom:16px;border-bottom:2px solid var(--bd)}
+.tbt{padding:7px 13px;font-size:12px;cursor:pointer;color:var(--tm);background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;font-family:'Raleway',sans-serif}
+.tbt.ac{color:var(--rs);border-bottom-color:var(--rs)}
+.mov{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:100}
+.mox{background:#fff;border-radius:16px;padding:24px;width:520px;max-width:95vw;max-height:90vh;overflow-y:auto}
+.mott{font-size:20px;color:var(--rs);margin-bottom:16px;font-family:'Cormorant Garamond',serif}
+.vf label{display:block;font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;margin-top:9px}
+.vf input,.vf select,.vf textarea{width:100%;padding:6px 9px;border:1px solid var(--bd);border-radius:6px;font-size:12px;background:#fff;color:var(--tx);font-family:'Raleway',sans-serif}
+.vf input:focus,.vf select:focus,.vf textarea:focus{outline:none;border-color:var(--gd)}
+.fr2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pb{height:6px;border-radius:3px;background:var(--bg);overflow:hidden;margin-top:4px}
+.pbf{height:100%;border-radius:3px;transition:width .5s}
+.alr{display:flex;align-items:flex-start;gap:10px;padding:10px;border-radius:8px;margin-bottom:8px;font-size:12px}
+.alr.er{background:#FEF0EE;border-left:3px solid var(--er)}
+.alr.wn{background:#FEF8EE;border-left:3px solid var(--wn)}
+.alr.ok{background:#EEF8F3;border-left:3px solid var(--ok)}
+.alr.inf{background:#EEF5FE;border-left:3px solid var(--inf)}
+.dlp{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--bd)}
+.dlp:last-child{border-bottom:none}
+.cal-g{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cdh{text-align:center;font-size:10px;font-weight:600;color:var(--tm);padding:5px 0;text-transform:uppercase}
+.cd{min-height:62px;padding:5px;border:1px solid var(--bd);border-radius:6px;background:#fff;font-size:12px}
+.cd.ot{background:var(--bg);opacity:.5}
+.cd.td{border-color:var(--gd);background:#FFF9EE}
+.cd.wd{border-color:var(--rs);background:#FFF0F5}
+.cdn{font-weight:600;color:var(--tm);margin-bottom:2px;font-size:12px}
+.cd.td .cdn{color:var(--gd)}
+.cd.wd .cdn{color:var(--rs)}
+.ce{font-size:8px;padding:1px 4px;border-radius:3px;margin-top:1px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ce.dl{background:#FDECEA;color:#A02828}.ce.ml{background:#EAF3FE;color:#1B5E89}
+.ce.mt{background:#EAF5EA;color:#1B5E35}.ce.wd{background:#F5E8EE;color:var(--rs)}
+.ce.py{background:#FFF3D8;color:#7B5800}
+.vc{background:var(--cd);border:1px solid var(--bd);border-radius:12px;padding:14px}
+.vc:hover{border-color:var(--gd)}
+.vn{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--rs);margin:5px 0 2px}
+.vvals{display:flex;gap:10px;margin:10px 0;padding:8px;background:var(--bg);border-radius:8px}
+.vvi{text-align:center;flex:1}
+.vvn{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--dk);font-weight:600}
+.vvl{font-size:9px;color:var(--tm);text-transform:uppercase}
+.g-row{display:flex;align-items:center;height:36px;border-bottom:1px solid var(--bd)}
+.g-lbl{width:200px;min-width:200px;font-size:11px;padding:0 10px;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g-lbl.cr{font-weight:600;color:var(--rs)}
+.g-tl{flex:1;position:relative;height:36px}
+.g-bar{position:absolute;height:20px;top:8px;border-radius:4px;display:flex;align-items:center;padding:0 6px;font-size:9px;color:#fff;white-space:nowrap;overflow:hidden;min-width:4px;cursor:default}
+.g-bar.cr{border:2px solid rgba(255,255,255,.6)}
+.g-hd{display:flex;align-items:center;height:28px;background:var(--bg);border-bottom:2px solid var(--bd)}
+.strs{display:flex;gap:2px}
+.str{cursor:pointer;font-size:14px}
+.fi{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--bd);border-radius:8px;background:#fff;margin-bottom:8px}
+.fic{width:34px;height:34px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:15px}
+.fic.pdf{background:#FDECEA}.fic.doc{background:#EAF3FE}.fic.img{background:#EAF5EA}
+.inst-row{display:flex;align-items:center;gap:8px;padding:7px;border:1px solid var(--bd);border-radius:6px;margin-bottom:5px;background:#fff;font-size:12px}
+.inst-paid{opacity:.6;background:#F5FBF8}
+.prog-ring{position:relative;display:inline-flex;align-items:center;justify-content:center}
+.empty{text-align:center;padding:36px;color:var(--tm);font-size:13px}
+.tag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;margin-right:4px;background:var(--bg);color:var(--tm)}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-thumb{background:rgba(0,0,0,.12);border-radius:3px}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const {useState,useEffect,useMemo,useCallback} = React;
+
+const TODAY = new Date();
+
+// ═══ SETTINGS DEFAULT ═══════════════════════════════════════
+const DEFAULT_SETTINGS = {
+  name1:'Thais', name2:'Gui', weddingDate:'2027-05-22',
+  venue:'', city:'Búzios, RJ', estimatedGuests:150,
+  ceremony:'Ao ar livre, 17h', theme:'', notes:'',
+};
+
+// ═══ DEFAULT IMPORTANT DATES (2027) ══════════════════════════
+const DEFAULT_IMPORTANT_DATES = [
+  {id:1,date:"2026-11-22",label:"Habilitação no Cartório",type:"deadline"},
+  {id:2,date:"2027-01-22",label:"Deadline: Fechar Local",type:"deadline"},
+  {id:3,date:"2027-01-31",label:"Fechar Local Definitivo",type:"milestone"},
+  {id:4,date:"2027-02-01",label:"Deadline: Foto/Vídeo",type:"deadline"},
+  {id:5,date:"2027-02-15",label:"Deadline: Buffet/Catering",type:"deadline"},
+  {id:6,date:"2027-03-01",label:"Deadline: Decoração",type:"deadline"},
+  {id:7,date:"2027-04-01",label:"Envio de Convites",type:"milestone"},
+  {id:8,date:"2027-04-10",label:"Sinal Buffet",type:"payment"},
+  {id:9,date:"2027-04-30",label:"Deadline RSVPs",type:"deadline"},
+  {id:10,date:"2027-05-10",label:"Prova Final Vestido",type:"milestone"},
+  {id:11,date:"2027-05-15",label:"Reunião Final Local",type:"meeting"},
+  {id:12,date:"2027-05-17",label:"Saldo Final Fornecedores",type:"payment"},
+  {id:13,date:"2027-05-21",label:"Cerimônia Civil",type:"milestone"},
+  {id:14,date:"2027-05-22",label:"CASAMENTO",type:"wedding"},
+];
+
+function daysUntil(d){return Math.ceil((d-TODAY)/86400000)}
+function fmtD(s){if(!s)return'';const d=new Date(s+'T12:00:00');return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'})}
+function fmtDS(s){if(!s)return'';const d=new Date(s+'T12:00:00');return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'})}
+function fmtR(v){return(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
+function fromStr(s){if(!s)return null;const[y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)}
+function toStr(d){if(!d)return'';return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+
+// ═══ BUDGET CATEGORIES ═══════════════════════════════════════
+const BUDGET_CATS = [
+  {id:'local',name:'Local & Estrutura',icon:'🏛️',planned:100000,color:'#4a90d9'},
+  {id:'alim',name:'Alimentação',icon:'🍽️',planned:80000,color:'#5bc06b'},
+  {id:'fotovid',name:'Foto & Vídeo',icon:'📸',planned:35000,color:'#e04f8c'},
+  {id:'dec',name:'Decoração & Flores',icon:'💐',planned:55000,color:'#f7a93d'},
+  {id:'musica',name:'Música & Entret.',icon:'🎵',planned:25000,color:'#3cbcb8'},
+  {id:'trajes',name:'Trajes & Beleza',icon:'👰',planned:35000,color:'#e86b6b'},
+  {id:'papel',name:'Papelaria',icon:'💌',planned:8000,color:'#9b7cc7'},
+  {id:'legal',name:'Legal & Cartório',icon:'📜',planned:5000,color:'#7B7B7B'},
+  {id:'transp',name:'Transporte',icon:'🚌',planned:12000,color:'#4B8FD4'},
+  {id:'outros',name:'Outros',icon:'🎁',planned:20000,color:'#C9A155'},
+];
+
+// ═══ VENDOR CATEGORIES ═══════════════════════════════════════
+const VENDOR_CATS = [
+  '🏛️ Venue / Espaço','🏛️ Gerador','🏛️ Banheiros Extras','🏛️ Limpeza (pré/durante/pós)',
+  '🏛️ Segurança','🏛️ Brigadista','🏛️ Valet','🏛️ Transporte Convidados',
+  '🏛️ Transporte Noivos','🏛️ Hospedagem',
+  '📜 Cartório Civil','📜 Documentação','📜 Despachante / Alvará',
+  '📜 Licenças Municipais','📜 Seguro do Evento',
+  '🍽️ Buffet','🍽️ Bar','🍽️ Bebidas','🍽️ Bolo','🍽️ Doces / Bem-casados','🍽️ Staff de Serviço',
+  '🎵 Banda','🎵 DJ','🎵 Atração Especial','🎵 Som Técnico',
+  '💐 Flores','💐 Iluminação Cênica','💐 Mobiliário','💐 Louças e Cristais',
+  '💐 Toalhas / Enxoval','💐 Cenografia','💐 Luminárias / Velas',
+  '💐 Tendas / Estruturas','💐 Pista de Dança','💐 Montagem/Desmontagem',
+  '📸 Fotografia','📸 Filmagem / Vídeo',
+  '👰 Vestido','👰 Segundo Look','👰 Sapatos Noiva','👰 Véu','👰 Joias','👰 Buquê',
+  '🤵 Terno Noivo','🤵 Sapatos Noivo','🤵 Acessórios Noivo',
+  '💄 Cabelo Noiva','💄 Maquiagem Noiva','💄 Teste Make/Cabelo',
+  '💌 Save the Date','💌 Convites','💌 Papelaria do Dia',
+  '🎁 Lembranças','🎁 Site do Casamento','🎁 Lua de Mel','🎁 Outros',
+];
+
+const CAT_TO_BUDGET = {
+  '🏛️ Venue / Espaço':'local','🏛️ Gerador':'local','🏛️ Banheiros Extras':'local',
+  '🏛️ Limpeza (pré/durante/pós)':'local','🏛️ Segurança':'local','🏛️ Brigadista':'local',
+  '🏛️ Valet':'transp','🏛️ Transporte Convidados':'transp','🏛️ Transporte Noivos':'transp',
+  '🏛️ Hospedagem':'local',
+  '📜 Cartório Civil':'legal','📜 Documentação':'legal','📜 Despachante / Alvará':'legal',
+  '📜 Licenças Municipais':'legal','📜 Seguro do Evento':'legal',
+  '🍽️ Buffet':'alim','🍽️ Bar':'alim','🍽️ Bebidas':'alim','🍽️ Bolo':'alim',
+  '🍽️ Doces / Bem-casados':'alim','🍽️ Staff de Serviço':'alim',
+  '🎵 Banda':'musica','🎵 DJ':'musica','🎵 Atração Especial':'musica','🎵 Som Técnico':'musica',
+  '💐 Flores':'dec','💐 Iluminação Cênica':'dec','💐 Mobiliário':'dec','💐 Louças e Cristais':'dec',
+  '💐 Toalhas / Enxoval':'dec','💐 Cenografia':'dec','💐 Luminárias / Velas':'dec',
+  '💐 Tendas / Estruturas':'dec','💐 Pista de Dança':'dec','💐 Montagem/Desmontagem':'dec',
+  '📸 Fotografia':'fotovid','📸 Filmagem / Vídeo':'fotovid',
+  '👰 Vestido':'trajes','👰 Segundo Look':'trajes','👰 Sapatos Noiva':'trajes',
+  '👰 Véu':'trajes','👰 Joias':'trajes','👰 Buquê':'trajes',
+  '🤵 Terno Noivo':'trajes','🤵 Sapatos Noivo':'trajes','🤵 Acessórios Noivo':'trajes',
+  '💄 Cabelo Noiva':'trajes','💄 Maquiagem Noiva':'trajes','💄 Teste Make/Cabelo':'trajes',
+  '💌 Save the Date':'papel','💌 Convites':'papel','💌 Papelaria do Dia':'papel',
+  '🎁 Lembranças':'outros','🎁 Site do Casamento':'outros','🎁 Lua de Mel':'outros','🎁 Outros':'outros',
+};
+
+const PIPELINE_STAGES = ['Prospectando','Em Avaliação','Em Negociação','Proposta Recebida','Fechado','Assinado','Cancelado'];
+const PIPE_CLS = {
+  'Prospectando':'pipe-lead','Em Avaliação':'pipe-aval','Em Negociação':'pipe-nego',
+  'Proposta Recebida':'pipe-prop','Fechado':'pipe-fech','Assinado':'pipe-ass','Cancelado':'pipe-canc'
+};
+const PAYERS = ['Thais','Gui','Família Thais','Família Gui','Casal','A Definir'];
+const PAY_METHODS = ['PIX','Transferência','Cartão de Crédito','Cartão de Débito','Boleto','Dinheiro'];
+
+const IMPORTANT_DATES = [
+  {date:"2026-05-15",label:"Prazo: Fechar Local",type:"deadline"},
+  {date:"2026-05-31",label:"Fechar Local Definitivo",type:"milestone"},
+  {date:"2026-06-01",label:"Prazo: Buffet/Catering",type:"deadline"},
+  {date:"2026-06-15",label:"Prazo: Foto/Vídeo",type:"deadline"},
+  {date:"2026-07-01",label:"Envio de Convites",type:"milestone"},
+  {date:"2026-07-01",label:"Prazo: Decoração",type:"deadline"},
+  {date:"2026-07-15",label:"Sinal Buffet",type:"payment"},
+  {date:"2026-08-31",label:"Deadline RSVPs",type:"deadline"},
+  {date:"2026-09-15",label:"Prova Final Vestido",type:"milestone"},
+  {date:"2026-10-01",label:"Reunião Final Local",type:"meeting"},
+  {date:"2026-10-05",label:"Saldo Fornecedores",type:"payment"},
+  {date:"2026-10-11",label:"CASAMENTO",type:"wedding"},
+];
+
+const CAT_COLORS_G = {
+  "Planejamento":"#9b7cc7","Local":"#4a90d9","Convidados":"#e8843a",
+  "Foto/Vídeo":"#e04f8c","Buffet":"#5bc06b","Decoração":"#f7a93d",
+  "Trajes":"#e86b6b","Música":"#3cbcb8","Evento":"#C9A155","Legal":"#7B8F9A",
+};
+
+const GANTT_TASKS = [
+  {id:1,name:"Habilitação no Cartório",start:"2026-11-01",end:"2026-12-15",cat:"Legal",value:1200,critical:true,deps:[]},
+  {id:2,name:"Definir data e local",start:"2026-07-01",end:"2027-01-31",cat:"Planejamento",value:0,critical:true,deps:[]},
+  {id:3,name:"Fechar local definitivo",start:"2027-01-01",end:"2027-01-31",cat:"Local",value:80000,critical:true,deps:[2]},
+  {id:4,name:"Publicação dos Editais",start:"2027-02-01",end:"2027-03-01",cat:"Legal",value:0,critical:true,deps:[1]},
+  {id:5,name:"Lista de convidados final",start:"2026-10-01",end:"2027-01-01",cat:"Convidados",value:0,critical:false,deps:[2]},
+  {id:6,name:"Contratar foto/vídeo",start:"2026-11-01",end:"2027-02-01",cat:"Foto/Vídeo",value:30000,critical:true,deps:[2]},
+  {id:7,name:"Fechar buffet/catering",start:"2027-01-15",end:"2027-02-28",cat:"Buffet",value:57000,critical:true,deps:[3]},
+  {id:8,name:"Contratar decoração",start:"2027-02-01",end:"2027-03-15",cat:"Decoração",value:35000,critical:false,deps:[3]},
+  {id:9,name:"Contratar música/DJ",start:"2027-01-15",end:"2027-03-01",cat:"Música",value:20000,critical:false,deps:[3]},
+  {id:10,name:"Envio de convites",start:"2027-04-01",end:"2027-04-30",cat:"Convidados",value:5000,critical:true,deps:[5]},
+  {id:11,name:"Confirmar RSVPs",start:"2027-04-15",end:"2027-04-30",cat:"Convidados",value:0,critical:true,deps:[10]},
+  {id:12,name:"Vestido / Provas",start:"2027-01-01",end:"2027-05-10",cat:"Trajes",value:20000,critical:false,deps:[2]},
+  {id:13,name:"Degustação buffet",start:"2027-03-01",end:"2027-04-01",cat:"Buffet",value:0,critical:false,deps:[7]},
+  {id:14,name:"Ensaio fotográfico",start:"2027-03-15",end:"2027-04-15",cat:"Foto/Vídeo",value:0,critical:false,deps:[6]},
+  {id:15,name:"Visita final ao local",start:"2027-05-10",end:"2027-05-20",cat:"Local",value:0,critical:true,deps:[3,8]},
+  {id:16,name:"Cerimônia Civil",start:"2027-05-21",end:"2027-05-21",cat:"Legal",value:0,critical:true,deps:[4]},
+  {id:17,name:"CASAMENTO",start:"2027-05-22",end:"2027-05-22",cat:"Evento",value:0,critical:true,deps:[11,15,16]},
+];
+
+// ═══ INITIAL DATA ═════════════════════════════════════════════
+function newPayment(vendorId,vendorName,label,amount,dueDate,method,payer){
+  return{id:Date.now()+Math.random(),vendorId,vendorName,label,amount,dueDate,method,payer,paid:false,paidDate:''};
+}
+
+const INITIAL_VENDORS = [
+  {id:1,cat:'🍽️ Buffet',name:'Rappanui',status:'Em Negociação',total:57000,notes:'R$475/pessoa · Taxa cozinha -R$7.000',contact:'',signed:false,rating:0,budgetCat:'alim',
+   payments:[newPayment(1,'Rappanui','Sinal 20%',11400,'2026-06-15','PIX','Casal'),newPayment(1,'Rappanui','2ª Parcela',22800,'2026-08-01','Transferência','Casal'),newPayment(1,'Rappanui','Saldo Final',22800,'2026-10-05','PIX','Casal')]},
+  {id:2,cat:'🍽️ Buffet',name:'Captains',status:'Em Avaliação',total:0,notes:'Aguardando orçamento',contact:'',signed:false,rating:0,budgetCat:'alim',payments:[]},
+  {id:3,cat:'🏛️ Venue / Espaço',name:'Vila Rasa',status:'Em Avaliação',total:0,notes:'',contact:'',signed:false,rating:0,budgetCat:'local',payments:[]},
+  {id:4,cat:'🏛️ Venue / Espaço',name:'Villa Mar',status:'Em Avaliação',total:0,notes:'',contact:'',signed:false,rating:0,budgetCat:'local',payments:[]},
+  {id:5,cat:'🏛️ Venue / Espaço',name:'Tawa',status:'Em Avaliação',total:0,notes:'',contact:'',signed:false,rating:0,budgetCat:'local',payments:[]},
+  {id:6,cat:'🏛️ Venue / Espaço',name:'Ferradura Private',status:'Em Avaliação',total:0,notes:'',contact:'',signed:false,rating:0,budgetCat:'local',payments:[]},
+  {id:7,cat:'🏛️ Venue / Espaço',name:'Green Lounge',status:'Em Avaliação',total:0,notes:'',contact:'',signed:false,rating:0,budgetCat:'local',payments:[]},
+  {id:8,cat:'🏛️ Venue / Espaço',name:'Pousada das Tartarugas',status:'Em Avaliação',total:0,notes:'',contact:'',signed:false,rating:0,budgetCat:'local',payments:[]},
+  {id:9,cat:'📸 Fotografia',name:'Caio About',status:'Em Avaliação',total:0,notes:'',contact:'',signed:false,rating:0,budgetCat:'fotovid',payments:[]},
+  {id:10,cat:'📸 Fotografia',name:'Marcelle Rodrigues',status:'Em Avaliação',total:0,notes:'',contact:'',signed:false,rating:0,budgetCat:'fotovid',payments:[]},
+  {id:11,cat:'📸 Fotografia',name:'Dezza Cortes',status:'Em Avaliação',total:0,notes:'',contact:'',signed:false,rating:0,budgetCat:'fotovid',payments:[]},
+  {id:12,cat:'📸 Filmagem / Vídeo',name:'Vagalume',status:'Em Avaliação',total:0,notes:'',contact:'',signed:false,rating:0,budgetCat:'fotovid',payments:[]},
+  {id:13,cat:'📸 Fotografia',name:'Denise Armon',status:'Em Avaliação',total:0,notes:'',contact:'',signed:false,rating:0,budgetCat:'fotovid',payments:[]},
+  {id:14,cat:'💐 Flores',name:'Andrea Rodrigues',status:'Em Avaliação',total:0,notes:'Decoração geral',contact:'',signed:false,rating:0,budgetCat:'dec',payments:[]},
+  {id:15,cat:'💐 Flores',name:'Patricia Campos',status:'Em Avaliação',total:0,notes:'',contact:'',signed:false,rating:0,budgetCat:'dec',payments:[]},
+  {id:16,cat:'💐 Flores',name:'Sarah Bessa',status:'Em Avaliação',total:0,notes:'',contact:'',signed:false,rating:0,budgetCat:'dec',payments:[]},
+  {id:17,cat:'💐 Flores',name:'Beatriz Dias',status:'Em Avaliação',total:0,notes:'',contact:'',signed:false,rating:0,budgetCat:'dec',payments:[]},
+  {id:18,cat:'💐 Flores',name:'Meire',status:'Em Avaliação',total:0,notes:'',contact:'',signed:false,rating:0,budgetCat:'dec',payments:[]},
+  {id:19,cat:'📜 Cartório Civil',name:'Cartório',status:'Prospectando',total:1200,notes:'Habilitação + cerimônia civil',contact:'',signed:false,rating:0,budgetCat:'legal',
+   payments:[newPayment(19,'Cartório','Habilitação',800,'2026-07-01','Dinheiro','Casal'),newPayment(19,'Cartório','Cerimônia Civil',400,'2026-10-10','Dinheiro','Casal')]},
+];
+
+const INITIAL_GUESTS = [
+  {id:1,name:"Livia",list:"F",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:2,name:"Thales",list:"F",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:3,name:"Carol",list:"F",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:4,name:"Marcella",list:"F",rsvp:"NÃO VAI",companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:5,name:"Rodolfo",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:6,name:"Palma",list:"F",rsvp:"NÃO VAI",companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:7,name:"Fe Batistella",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:8,name:"Daniel",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:9,name:"Fe Turazizi",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:10,name:"Pati Consorti",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:11,name:"Francelino",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:12,name:"Cris",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:13,name:"Pompeo",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:14,name:"Naty",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:15,name:"Mimi",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:16,name:"Cesar",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:17,name:"Pati",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:18,name:"Caio",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:19,name:"Tina",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:20,name:"Bruno",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:21,name:"Cica",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:22,name:"Bruno B.",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:23,name:"Lucila",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:24,name:"Cho",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:25,name:"Deco",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:26,name:"Re",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:27,name:"Chris Sansone",list:"A",rsvp:"NÃO VAI",companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:28,name:"Bernard",list:"A",rsvp:"NÃO VAI",companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:29,name:"Vinicius",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:30,name:"Bahia",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:31,name:"Van",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:32,name:"Coração",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:33,name:"Ro",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:34,name:"Dri",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:35,name:"Dri Portuga",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:36,name:"Fe Imai",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:37,name:"Erica",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:38,name:"Luiz",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:39,name:"Fe Matos",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:40,name:"Claudiao",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:41,name:"Moni",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:42,name:"Pedrao",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:43,name:"Carola",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:44,name:"Ju Siqueira",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:45,name:"Di",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:46,name:"Stella",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:47,name:"Marinete",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:48,name:"Boy",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:49,name:"Faria",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:50,name:"Mari Pacheco",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:51,name:"Karin",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:52,name:"Kiki",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:53,name:"Irineu",list:"C",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:54,name:"Eleonora",list:"C",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:55,name:"Sabrina",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:56,name:"Rafa",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:57,name:"Dani Matos",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:58,name:"Salga",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:59,name:"Aninha",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:60,name:"Cau",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:61,name:"Guido",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:62,name:"Lorena",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:63,name:"Pati Bulhoes",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:64,name:"Cha",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:65,name:"Joao",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:66,name:"Joao M.",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:67,name:"Pri",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:68,name:"Mari Gottardi",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:69,name:"Cadu",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:70,name:"Vivi",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:71,name:"Fabinho",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:72,name:"Pri Metzger",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:73,name:"Bruno C.",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:74,name:"De Ribeiro",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:75,name:"Mari",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:76,name:"Paulinho Haddad",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:77,name:"Cerva",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:78,name:"Boy B.",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:79,name:"Ursa",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:80,name:"Mariangeli",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:81,name:"Beto Mellao",list:"C",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:82,name:"Edu Siqueira",list:"C",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:83,name:"Serginho",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:84,name:"Fabiane",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:85,name:"Barbara",list:"C",rsvp:"NÃO VAI",companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:86,name:"Marcos",list:"C",rsvp:"NÃO VAI",companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:87,name:"Edu Tostes",list:"C",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:88,name:"Dri Surita",list:"C",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:89,name:"Excellent",list:"C",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:90,name:"Gustavo Portuga",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:91,name:"Joaozinho",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:92,name:"Yuval",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:93,name:"Marcinho",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:94,name:"Cami",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:95,name:"Gabriel",list:"B",rsvp:"NÃO VAI",companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:96,name:"Cami Borowski",list:"B",rsvp:"NÃO VAI",companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:97,name:"Marquinhos",list:"A",rsvp:"NÃO VAI",companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:98,name:"Greg",list:"A",rsvp:"NÃO VAI",companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:99,name:"Piludi",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:100,name:"Betinho",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:101,name:"Juju",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:102,name:"Richard",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:103,name:"Moti",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:104,name:"Victor Adura",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:105,name:"Victor",list:"A",rsvp:"NÃO VAI",companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:106,name:"Linao",list:"A",rsvp:"NÃO VAI",companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:107,name:"Thiago",list:"A",rsvp:"NÃO VAI",companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:108,name:"Pai",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Família',notes:""},
+  {id:109,name:"Mae",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Família',notes:""},
+  {id:110,name:"Tia Ana",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Família',notes:""},
+  {id:111,name:"Tio Bertinho",list:"D",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Família',notes:""},
+  {id:112,name:"Tia Bete",list:"D",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Família',notes:""},
+  {id:113,name:"Ricardo",list:"D",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Família',notes:""},
+  {id:114,name:"Naty F.",list:"D",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Família',notes:""},
+  {id:115,name:"Leandro",list:"D",rsvp:"NÃO VAI",companions:0,dietary:'',phone:'',email:'',segment:'Família',notes:""},
+  {id:116,name:"Paula A.",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:117,name:"Sueli",list:"D",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Família',notes:""},
+  {id:118,name:"Tio Sergio",list:"D",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Família',notes:""},
+  {id:119,name:"Marina",list:"A",rsvp:"NÃO VAI",companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:120,name:"Toti",list:"A",rsvp:"NÃO VAI",companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:121,name:"Tete",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:122,name:"Stella B.",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:123,name:"Dudu",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:124,name:"Anna",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:125,name:"Ciça",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:126,name:"Bebel",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:127,name:"3 Pequenas",list:"A",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Família',notes:"Crianças"},
+  {id:128,name:"Lu Grinberg",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:129,name:"Fernando",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:130,name:"Grill",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:131,name:"Ju B.",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:132,name:"Cacha",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:133,name:"Tissi",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:134,name:"Cris Maga",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:135,name:"Chico Brito",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:136,name:"Rodrigo",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:137,name:"Gigante",list:"B",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:138,name:"Irineu",list:"C",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:139,name:"Eleonora",list:"C",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:140,name:"Daniel Haddad",list:"C",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:141,name:"Roberta Demeo",list:"C",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:142,name:"Bebel Collela",list:"C",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:143,name:"Sil Dib",list:"C",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:144,name:"Erica Sarubbi",list:"C",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:145,name:"Claudia Aldrighi",list:"C",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:146,name:"Alexandre",list:"C",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:147,name:"Estefi",list:"C",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:148,name:"Bernardo",list:"C",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+  {id:149,name:"Guta",list:"C",rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:""},
+];
+
+// ═══════════════════════════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════════════════════════
+function Dashboard({guests,vendors,weddingDate,importantDates}){
+  const [calMonth,setCalMonth]=useState(new Date(2027,4,1));
+  const daysLeft=daysUntil(weddingDate);
+  const allPayments=vendors.flatMap(v=>v.payments||[]);
+  const totalPlanned=BUDGET_CATS.reduce((s,c)=>s+c.planned,0);
+  const committed=vendors.reduce((s,v)=>s+v.total,0);
+  const paid=allPayments.filter(p=>p.paid).reduce((s,p)=>s+p.amount,0);
+  const totalGuests=guests.reduce((s,g)=>s+(1+(g.companions||0)),0);
+  const going=guests.filter(g=>g.rsvp==='VAI CERTEZA').length;
+  const pending=guests.filter(g=>!g.rsvp).length;
+  const progress=Math.round((committed/totalPlanned)*100);
+
+  // Alerts
+  const alerts=useMemo(()=>{
+    const a=[];
+    const now=TODAY;
+    // Budget overrun
+    if(committed>totalPlanned*0.95) a.push({type:'er',icon:'⚠️',msg:`Orçamento comprometido está em ${fmtR(committed)} de ${fmtR(totalPlanned)} orçados. Risco de estouro.`});
+    // Payments due < 14 days
+    allPayments.filter(p=>!p.paid&&p.dueDate).forEach(p=>{
+      const d=daysUntil(fromStr(p.dueDate));
+      if(d>=0&&d<=14) a.push({type:'er',icon:'💰',msg:`${p.vendorName} — ${p.label}: ${fmtR(p.amount)} vence em ${d} dias (${fmtD(p.dueDate)})`});
+    });
+    // Vendors near deadline without contract
+    vendors.filter(v=>v.status!=='Assinado'&&v.status!=='Cancelado'&&v.deadline).forEach(v=>{
+      const d=daysUntil(fromStr(v.deadline));
+      if(d>=0&&d<=21) a.push({type:'wn',icon:'📋',msg:`${v.name} — prazo de fechamento em ${d} dias sem contrato assinado`});
+    });
+    // RSVPs
+    if(daysLeft<=90&&pending>10) a.push({type:'wn',icon:'👥',msg:`${pending} convidados ainda sem RSVP e faltam apenas ${daysLeft} dias`});
+    // Positive
+    if(going>0) a.push({type:'ok',icon:'✅',msg:`${going} convidados confirmados (${Math.round(going/guests.length*100)}% da lista)`});
+    return a.slice(0,5);
+  },[vendors,guests]);
+
+  // Calendar
+  const cy=calMonth.getFullYear(),cm=calMonth.getMonth();
+  const fd=new Date(cy,cm,1).getDay();
+  const dim=new Date(cy,cm+1,0).getDate();
+  const pd=new Date(cy,cm,0).getDate();
+  const cells=[];
+  for(let i=(fd===0?6:fd-1);i>0;i--) cells.push({d:pd-i+1,cur:false});
+  for(let d=1;d<=dim;d++) cells.push({d,cur:true});
+  while(cells.length%7!==0) cells.push({d:cells.length-dim-(fd===0?6:fd-1)+1,cur:false});
+  function getEvs(d,cur){
+    if(!cur)return[];
+    const ds=`${cy}-${String(cm+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const evs=[...IMPORTANT_DATES.filter(e=>e.date===ds)];
+    allPayments.filter(p=>!p.paid&&p.dueDate===ds).forEach(p=>evs.push({label:`Pgt: ${p.vendorName}`,type:'payment'}));
+    return evs;
+  }
+  const isToday=(d,c)=>{if(!c)return false;const t=new Date();return t.getFullYear()===cy&&t.getMonth()===cm&&t.getDate()===d};
+  const isWed=(d,c)=>c&&cy===weddingDate.getFullYear()&&cm===weddingDate.getMonth()&&d===weddingDate.getDate();
+
+  // Cash flow next 6 months
+  const cashFlow=useMemo(()=>{
+    const months=[];
+    for(let i=0;i<6;i++){
+      const m=new Date(TODAY.getFullYear(),TODAY.getMonth()+i,1);
+      const mStr=`${m.getFullYear()}-${String(m.getMonth()+1).padStart(2,'0')}`;
+      const due=allPayments.filter(p=>p.dueDate&&p.dueDate.startsWith(mStr));
+      const total=due.reduce((s,p)=>s+p.amount,0);
+      const paidAmt=due.filter(p=>p.paid).reduce((s,p)=>s+p.amount,0);
+      months.push({label:m.toLocaleDateString('pt-BR',{month:'short',year:'2-digit'}),total,paid:paidAmt,pending:total-paidAmt});
+    }
+    return months;
+  },[allPayments]);
+  const maxFlow=Math.max(...cashFlow.map(m=>m.total),1);
+
+  const upcoming=importantDates.filter(e=>{const d=fromStr(e.date);return d>=TODAY&&d<=new Date(TODAY.getTime()+45*86400000)}).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);
+  const tClr={deadline:'#C41E3A',milestone:'#1B5E89',meeting:'#2D7D5C',wedding:('#7B3055'),payment:'#B87B15'};
+
+  return(
+    <div>
+      {/* KPI COCKPIT */}
+      <div className="kpi-row">
+        <div className="kpi"><div className="kpi-v" style={{color:'var(--rs)'}}>{daysLeft}</div><div className="kpi-l">Dias Restantes</div></div>
+        <div className="kpi"><div className="kpi-v" style={{color:'var(--tx)'}}>{totalGuests}</div><div className="kpi-l">Total Convidados</div></div>
+        <div className="kpi"><div className="kpi-v" style={{color:'var(--ok)'}}>{going}</div><div className="kpi-l">Confirmados</div></div>
+        <div className="kpi"><div className="kpi-v" style={{color:'var(--tm)'}}>{pending}</div><div className="kpi-l">Sem Resposta</div></div>
+        <div className="kpi"><div className="kpi-v" style={{color:'var(--tx)',fontSize:18}}>{fmtR(totalPlanned)}</div><div className="kpi-l">Orçamento Total</div></div>
+        <div className="kpi"><div className="kpi-v" style={{color:'var(--wn)',fontSize:18}}>{fmtR(committed)}</div><div className="kpi-l">Comprometido</div></div>
+        <div className="kpi"><div className="kpi-v" style={{color:'var(--ok)',fontSize:18}}>{fmtR(paid)}</div><div className="kpi-l">Pago</div></div>
+        <div className="kpi"><div className="kpi-v" style={{color:progress>90?'var(--er)':progress>70?'var(--wn)':'var(--inf)'}}>{progress}%</div><div className="kpi-l">Progresso</div></div>
+      </div>
+
+      <div className="grid2">
+        {/* ALERTS */}
+        <div className="card">
+          <div className="ct">Alertas & Insights</div>
+          {alerts.length===0?<div className="empty">Nenhum alerta</div>:alerts.map((a,i)=>(
+            <div key={i} className={`alr ${a.type}`}><span style={{fontSize:14}}>{a.icon}</span><span style={{flex:1}}>{a.msg}</span></div>
+          ))}
+        </div>
+
+        {/* CASH FLOW */}
+        <div className="card">
+          <div className="ct">Fluxo de Caixa (próx. 6 meses)</div>
+          {cashFlow.map((m,i)=>(
+            <div key={i} style={{marginBottom:10}}>
+              <div style={{display:'flex',justifyContent:'space-between',fontSize:11,marginBottom:3}}>
+                <span style={{fontWeight:600,textTransform:'capitalize'}}>{m.label}</span>
+                <span style={{color:'var(--tm)'}}>{fmtR(m.total)}{m.paid>0&&<span style={{color:'var(--ok)',marginLeft:6}}>+{fmtR(m.paid)} pago</span>}</span>
+              </div>
+              <div className="pb">
+                <div className="pbf" style={{width:`${m.total?m.total/maxFlow*100:0}%`,background:'var(--rs)',opacity:.7}}/>
+              </div>
+              {m.paid>0&&<div className="pb" style={{marginTop:2}}>
+                <div className="pbf" style={{width:`${m.total?m.paid/maxFlow*100:0}%`,background:'var(--ok)'}}/>
+              </div>}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="grid2">
+        {/* CALENDAR */}
+        <div className="card">
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:12}}>
+            <div className="ct" style={{marginBottom:0}}>{new Date(cy,cm).toLocaleDateString('pt-BR',{month:'long',year:'numeric'})}</div>
+            <div style={{display:'flex',gap:5}}>
+              <button className="btn bs bsm" onClick={()=>setCalMonth(new Date(cy,cm-1,1))}>‹</button>
+              <button className="btn bs bsm" onClick={()=>setCalMonth(new Date(cy,cm+1,1))}>›</button>
+            </div>
+          </div>
+          <div className="cal-g">
+            {['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'].map(d=><div key={d} className="cdh">{d}</div>)}
+            {cells.map((c,i)=>{
+              const evs=getEvs(c.d,c.cur);
+              return(
+                <div key={i} className={`cd${!c.cur?' ot':''}${isToday(c.d,c.cur)?' td':''}${isWed(c.d,c.cur)?' wd':''}`}>
+                  <div className="cdn">{c.d}</div>
+                  {evs.slice(0,2).map((e,j)=><div key={j} className={`ce ${e.type==='deadline'?'dl':e.type==='milestone'?'ml':e.type==='meeting'?'mt':e.type==='wedding'?'wd':'py'}`}>{e.label}</div>)}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* UPCOMING */}
+        <div className="card">
+          <div className="ct">Próximos 45 Dias</div>
+          {upcoming.map((d,i)=>{
+            const days=daysUntil(fromStr(d.date));
+            return(
+              <div key={i} className="dlp">
+                <div style={{width:7,height:7,borderRadius:'50%',background:tClr[d.type]||'#aaa',flexShrink:0}}/>
+                <div style={{flex:1,fontSize:12}}>{d.label}</div>
+                <div style={{fontSize:10,textAlign:'right',color:days<=7?'var(--er)':days<=14?'var(--wn)':'var(--tm)'}}>{fmtD(d.date)}<br/>{days}d</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// GUESTS
+// ═══════════════════════════════════════════════════════════════
+function Guests({guests,setGuests}){
+  const [lf,setLf]=useState('all');
+  const [rf,setRf]=useState('all');
+  const [sf,setSf]=useState('all');
+  const [q,setQ]=useState('');
+  const [showAdd,setShowAdd]=useState(false);
+  const [editG,setEditG]=useState(null);
+  const blankG={name:'',list:'A',rsvp:null,companions:0,dietary:'',phone:'',email:'',segment:'Amigos',notes:''};
+  const [form,setForm]=useState(blankG);
+
+  const segments=[...new Set(guests.map(g=>g.segment||'Amigos'))];
+  const filtered=useMemo(()=>guests.filter(g=>{
+    if(lf!=='all'&&g.list!==lf)return false;
+    if(rf==='going'&&g.rsvp!=='VAI CERTEZA')return false;
+    if(rf==='notgoing'&&g.rsvp!=='NÃO VAI')return false;
+    if(rf==='maybe'&&g.rsvp!=='PROVAVELMENTE NÃO VAI')return false;
+    if(rf==='pending'&&g.rsvp!==null)return false;
+    if(sf!=='all'&&(g.segment||'Amigos')!==sf)return false;
+    if(q&&!g.name.toLowerCase().includes(q.toLowerCase()))return false;
+    return true;
+  }),[guests,lf,rf,sf,q]);
+
+  const totalConfirmed=guests.filter(g=>g.rsvp==='VAI CERTEZA').reduce((s,g)=>s+(1+(g.companions||0)),0);
+  const counts={};['A','B','C','D','F'].forEach(l=>counts[l]=guests.filter(g=>g.list===l).length);
+
+  function saveGuest(){
+    if(!form.name.trim())return;
+    if(editG) setGuests(p=>p.map(g=>g.id===editG.id?{...g,...form}:g));
+    else setGuests(p=>[...p,{...form,id:Date.now()}]);
+    setShowAdd(false);setEditG(null);setForm(blankG);
+  }
+  function openEdit(g){setEditG(g);setForm({...g});setShowAdd(true)}
+  function delGuest(id){if(confirm('Remover?'))setGuests(p=>p.filter(g=>g.id!==id))}
+  function upRsvp(id,v){setGuests(p=>p.map(g=>g.id===id?{...g,rsvp:v||null}:g))}
+
+  return(
+    <div>
+      <div style={{display:'flex',justifyContent:'space-between',marginBottom:14}}>
+        <div style={{fontSize:12,color:'var(--tm)'}}>
+          <b style={{color:'var(--tx)'}}>{filtered.length}</b>/{guests.length} listados · <b style={{color:'var(--ok)'}}>{totalConfirmed}</b> confirmados (com acomp.)
+        </div>
+        <button className="btn bp" onClick={()=>{setEditG(null);setForm(blankG);setShowAdd(true)}}>+ Adicionar</button>
+      </div>
+
+      <div className="fb">
+        <input className="si" placeholder="Buscar..." value={q} onChange={e=>setQ(e.target.value)}/>
+        {['all','A','B','C','D','F'].map(l=><button key={l} className={`fbt${lf===l?' ac':''}`} onClick={()=>setLf(l)}>{l==='all'?'Todos':`Lista ${l} (${counts[l]||0})`}</button>)}
+      </div>
+      <div className="fb" style={{marginTop:-5}}>
+        {[['all','Todos RSVPs'],['going','Vai'],['notgoing','Não Vai'],['maybe','Talvez'],['pending','Sem Resp.']].map(([v,l])=>(
+          <button key={v} className={`fbt${rf===v?' ac':''}`} onClick={()=>setRf(v)}>{l}</button>
+        ))}
+        <span style={{color:'var(--bd)',fontSize:12}}>|</span>
+        {['all',...segments].map(s=><button key={s} className={`fbt${sf===s?' ac':''}`} onClick={()=>setSf(s)}>{s==='all'?'Todos Grupos':s}</button>)}
+      </div>
+
+      <div className="card" style={{padding:0,overflow:'hidden'}}>
+        <table className="dt">
+          <thead><tr>
+            <th>#</th><th>Nome</th><th>Lista</th><th>Grupo</th><th>RSVP</th><th>+1</th><th>Restrição</th><th></th>
+          </tr></thead>
+          <tbody>
+            {filtered.map((g,i)=>(
+              <tr key={g.id}>
+                <td style={{color:'var(--tm)',fontSize:10}}>{i+1}</td>
+                <td style={{fontWeight:500}}>{g.name}{g.phone&&<span style={{fontSize:9,color:'var(--tm)',marginLeft:5}}>{g.phone}</span>}</td>
+                <td><span className={`badge b${g.list}`}>Lista {g.list}</span></td>
+                <td style={{fontSize:11,color:'var(--tm)'}}>{g.segment||'—'}</td>
+                <td>
+                  <select className="rs" value={g.rsvp||''} onChange={e=>upRsvp(g.id,e.target.value)}>
+                    <option value="">Sem Resposta</option>
+                    <option value="VAI CERTEZA">Vai Certeza</option>
+                    <option value="PROVAVELMENTE NÃO VAI">Provavelmente Não Vai</option>
+                    <option value="NÃO VAI">Não Vai</option>
+                  </select>
+                </td>
+                <td style={{textAlign:'center',fontSize:12}}>{g.companions>0?`+${g.companions}`:'—'}</td>
+                <td style={{fontSize:10,color:'var(--wn)'}}>{g.dietary||'—'}</td>
+                <td>
+                  <div style={{display:'flex',gap:4}}>
+                    <button className="btn bs bsm" onClick={()=>openEdit(g)}>✏</button>
+                    <button className="bdl" onClick={()=>delGuest(g.id)}>✕</button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+            {filtered.length===0&&<tr><td colSpan={8} className="empty">Nenhum resultado</td></tr>}
+          </tbody>
+        </table>
+      </div>
+
+      {showAdd&&(
+        <div className="mov" onClick={e=>{if(e.target.className==='mov'){setShowAdd(false);setEditG(null)}}}>
+          <div className="mox">
+            <div className="mott">{editG?'Editar Convidado':'Novo Convidado'}</div>
+            <div className="vf"><label>Nome *</label><input value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder="Nome completo"/></div>
+            <div className="fr2">
+              <div className="vf"><label>Lista</label>
+                <select value={form.list} onChange={e=>setForm({...form,list:e.target.value})}>
+                  <option value="A">A — Principal</option><option value="B">B — Secundária</option>
+                  <option value="C">C — Terciária</option><option value="D">D — Família</option><option value="F">F — Outros</option>
+                </select>
+              </div>
+              <div className="vf"><label>Grupo / Segmento</label>
+                <select value={form.segment||'Amigos'} onChange={e=>setForm({...form,segment:e.target.value})}>
+                  {['Amigos','Família','Trabalho','Parceiros','Outros'].map(s=><option key={s}>{s}</option>)}
+                </select>
+              </div>
+            </div>
+            <div className="fr2">
+              <div className="vf"><label>RSVP</label>
+                <select value={form.rsvp||''} onChange={e=>setForm({...form,rsvp:e.target.value||null})}>
+                  <option value="">Sem Resposta</option><option value="VAI CERTEZA">Vai Certeza</option>
+                  <option value="PROVAVELMENTE NÃO VAI">Provavelmente Não Vai</option><option value="NÃO VAI">Não Vai</option>
+                </select>
+              </div>
+              <div className="vf"><label>Acompanhantes (+1)</label>
+                <input type="number" min="0" max="10" value={form.companions||0} onChange={e=>setForm({...form,companions:parseInt(e.target.value)||0})}/>
+              </div>
+            </div>
+            <div className="fr2">
+              <div className="vf"><label>Telefone</label><input value={form.phone||''} onChange={e=>setForm({...form,phone:e.target.value})} placeholder="(11) 99999-9999"/></div>
+              <div className="vf"><label>Email</label><input value={form.email||''} onChange={e=>setForm({...form,email:e.target.value})} placeholder="email@..."/></div>
+            </div>
+            <div className="vf"><label>Restrição Alimentar</label>
+              <select value={form.dietary||''} onChange={e=>setForm({...form,dietary:e.target.value})}>
+                <option value="">Nenhuma</option>
+                <option value="Vegetariano">Vegetariano</option><option value="Vegano">Vegano</option>
+                <option value="Sem Glúten">Sem Glúten</option><option value="Sem Lactose">Sem Lactose</option>
+                <option value="Kosher">Kosher</option><option value="Halal">Halal</option><option value="Outra">Outra</option>
+              </select>
+            </div>
+            <div className="vf"><label>Notas</label><input value={form.notes||''} onChange={e=>setForm({...form,notes:e.target.value})} placeholder="Observações..."/></div>
+            <div style={{display:'flex',gap:8,marginTop:16}}>
+              <button className="btn bp" onClick={saveGuest}>{editG?'Salvar':'Adicionar'}</button>
+              <button className="btn bs" onClick={()=>{setShowAdd(false);setEditG(null)}}>Cancelar</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// VENDORS
+// ═══════════════════════════════════════════════════════════════
+function Vendors({vendors,setVendors}){
+  const [cf,setCf]=useState('all');
+  const [pf,setPf]=useState('all');
+  const [showForm,setShowForm]=useState(false);
+  const [editV,setEditV]=useState(null);
+  const [showPayForm,setShowPayForm]=useState(null);
+  const blankV={cat:'🏛️ Venue / Espaço',name:'',status:'Em Avaliação',total:0,notes:'',contact:'',signed:false,rating:0,budgetCat:'local',payments:[]};
+  const blankP={label:'Sinal',amount:0,dueDate:'',method:'PIX',payer:'Casal'};
+  const [vform,setVform]=useState(blankV);
+  const [pform,setPform]=useState(blankP);
+
+  const catGroups=[...new Set(VENDOR_CATS.map(c=>c.split(' ').slice(0,2).join(' ')))];
+  const mainGroups=[...new Set(VENDOR_CATS.map(c=>c.charAt(0)+c.split(' ')[1].replace('/','/')))];
+  const groupLabels=['all','🏛️ Local/Estrutura','📜 Legal','🍽️ Alimentação','🎵 Entretenimento','💐 Decoração','📸 Imagem','👰 Noiva/Noivo','💄 Beleza','💌 Papelaria','🎁 Outros'];
+  function matchGroup(v,g){
+    if(g==='all')return true;
+    const icon=g.charAt(0);
+    return v.cat.startsWith(icon);
+  }
+
+  const filtered=useMemo(()=>{
+    let vs=vendors;
+    if(cf!=='all') vs=vs.filter(v=>matchGroup(v,cf));
+    if(pf!=='all') vs=vs.filter(v=>v.status===pf);
+    return vs;
+  },[vendors,cf,pf]);
+
+  function saveVendor(){
+    if(!vform.name.trim())return;
+    const bc=CAT_TO_BUDGET[vform.cat]||'outros';
+    if(editV) setVendors(p=>p.map(v=>v.id===editV.id?{...vform,id:v.id,budgetCat:bc,payments:v.payments}:v));
+    else setVendors(p=>[...p,{...vform,id:Date.now(),budgetCat:bc,payments:[]}]);
+    setShowForm(false);setEditV(null);setVform(blankV);
+  }
+  function openEdit(v){setEditV(v);setVform({...v});setShowForm(true)}
+  function delVendor(id){if(confirm('Remover?'))setVendors(p=>p.filter(v=>v.id!==id))}
+  function addPayment(vid,vname){
+    const p={...pform,id:Date.now(),vendorId:vid,vendorName:vname,paid:false,paidDate:''};
+    setVendors(prev=>prev.map(v=>v.id===vid?{...v,payments:[...v.payments,p]}:v));
+    setShowPayForm(null);setPform(blankP);
+  }
+  function togglePaid(vid,pid){
+    setVendors(prev=>prev.map(v=>v.id===vid?{...v,payments:v.payments.map(p=>p.id===pid?{...p,paid:!p.paid,paidDate:p.paid?'':toStr(TODAY)}:p)}:v));
+  }
+  function delPayment(vid,pid){
+    setVendors(prev=>prev.map(v=>v.id===vid?{...v,payments:v.payments.filter(p=>p.id!==pid)}:v));
+  }
+
+  const Stars=({n,onChange})=>(
+    <div className="strs">{[1,2,3,4,5].map(i=>(
+      <span key={i} className="str" onClick={()=>onChange&&onChange(i)} style={{color:i<=n?'#C9A155':'#DDD',opacity:onChange?1:.8}}>{i<=n?'★':'☆'}</span>
+    ))}</div>
+  );
+
+  return(
+    <div>
+      <div style={{display:'flex',justifyContent:'space-between',marginBottom:14}}>
+        <div style={{fontSize:12,color:'var(--tm)'}}><b>{filtered.length}</b> fornecedores · Comprometido: <b style={{color:'var(--rs)'}}>{fmtR(filtered.reduce((s,v)=>s+v.total,0))}</b></div>
+        <button className="btn bp" onClick={()=>{setEditV(null);setVform(blankV);setShowForm(true)}}>+ Fornecedor</button>
+      </div>
+      <div className="fb">
+        {groupLabels.map(g=><button key={g} className={`fbt${cf===g?' ac':''}`} onClick={()=>setCf(g)}>{g==='all'?'Todos':g}</button>)}
+      </div>
+      <div className="fb" style={{marginTop:-5}}>
+        <span style={{fontSize:11,color:'var(--tm)'}}>Pipeline:</span>
+        {['all',...PIPELINE_STAGES].map(s=><button key={s} className={`fbt${pf===s?' ac':''}`} onClick={()=>setPf(s)}>{s==='all'?'Todos':s}</button>)}
+      </div>
+
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(290px,1fr))',gap:13}}>
+        {filtered.map(v=>{
+          const paidSum=(v.payments||[]).filter(p=>p.paid).reduce((s,p)=>s+p.amount,0);
+          const dueNext=(v.payments||[]).filter(p=>!p.paid&&p.dueDate).sort((a,b)=>a.dueDate.localeCompare(b.dueDate))[0];
+          const dl=dueNext?daysUntil(fromStr(dueNext.dueDate)):null;
+          return(
+            <div key={v.id} className="vc">
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:4}}>
+                <span style={{fontSize:11,color:'var(--tm)'}}>{v.cat}</span>
+                <span className={`badge ${PIPE_CLS[v.status]||'pipe-aval'}`}>{v.status}</span>
+              </div>
+              <div className="vn">{v.name}</div>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:6}}>
+                <Stars n={v.rating||0} onChange={r=>setVendors(p=>p.map(x=>x.id===v.id?{...x,rating:r}:x))}/>
+                {v.signed&&<span className="badge b-ok" style={{fontSize:10}}>✓ Assinado</span>}
+              </div>
+              {v.contact&&<div style={{fontSize:11,color:'var(--tm)',marginBottom:6}}>{v.contact}</div>}
+              {v.total>0&&(
+                <div className="vvals">
+                  <div className="vvi"><div className="vvn">{fmtR(v.total)}</div><div className="vvl">Total</div></div>
+                  <div className="vvi"><div className="vvn" style={{color:'var(--ok)'}}>{fmtR(paidSum)}</div><div className="vvl">Pago</div></div>
+                  <div className="vvi"><div className="vvn" style={{color:'var(--er)'}}>{fmtR(v.total-paidSum)}</div><div className="vvl">Saldo</div></div>
+                </div>
+              )}
+              {dueNext&&<div style={{fontSize:11,padding:'5px 8px',borderRadius:6,marginBottom:6,background:dl<=7?'#FEF0EE':dl<=21?'#FEF8EE':'#F5F5F5',color:dl<=7?'var(--er)':dl<=21?'var(--wn)':'var(--tm)'}}>
+                Próx. pgto: {dueNext.label} — {fmtR(dueNext.amount)} ({dl}d)
+              </div>}
+              {v.notes&&<div style={{fontSize:11,color:'var(--tm)',background:'var(--bg)',padding:'5px 7px',borderRadius:5,marginBottom:6}}>{v.notes}</div>}
+
+              {/* PAYMENTS */}
+              {(v.payments||[]).length>0&&(
+                <div style={{marginBottom:6}}>
+                  {v.payments.map(p=>(
+                    <div key={p.id} className={`inst-row${p.paid?' inst-paid':''}`}>
+                      <input type="checkbox" checked={!!p.paid} onChange={()=>togglePaid(v.id,p.id)}/>
+                      <div style={{flex:1,minWidth:0}}>
+                        <div style={{fontSize:11,fontWeight:p.paid?400:500,textDecoration:p.paid?'line-through':'none',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{p.label}</div>
+                        <div style={{fontSize:10,color:'var(--tm)'}}>{fmtD(p.dueDate)} · {p.method} · {p.payer}</div>
+                      </div>
+                      <div style={{fontWeight:600,fontSize:12,color:p.paid?'var(--ok)':'var(--tx)',whiteSpace:'nowrap'}}>{fmtR(p.amount)}</div>
+                      <button className="bdl" style={{padding:'2px 6px',fontSize:10}} onClick={()=>delPayment(v.id,p.id)}>✕</button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div style={{display:'flex',gap:5,flexWrap:'wrap'}}>
+                <button className="btn bs bsm" onClick={()=>{setShowPayForm(v.id);setPform({...blankP,vendorName:v.name})}}>+ Parcela</button>
+                <button className="btn bs bsm" onClick={()=>openEdit(v)}>Editar</button>
+                <button className="bdl" onClick={()=>delVendor(v.id)}>✕</button>
+              </div>
+
+              {showPayForm===v.id&&(
+                <div style={{marginTop:10,padding:10,background:'var(--bg)',borderRadius:8}}>
+                  <div style={{fontSize:11,fontWeight:600,marginBottom:6}}>Nova Parcela</div>
+                  <div className="fr2">
+                    <div className="vf"><label>Descrição</label><input value={pform.label} onChange={e=>setPform({...pform,label:e.target.value})} placeholder="Sinal, 1ª parcela..."/></div>
+                    <div className="vf"><label>Valor (R$)</label><input type="number" value={pform.amount||''} onChange={e=>setPform({...pform,amount:Number(e.target.value)})}/></div>
+                  </div>
+                  <div className="fr2">
+                    <div className="vf"><label>Vencimento</label><input type="date" value={pform.dueDate} onChange={e=>setPform({...pform,dueDate:e.target.value})}/></div>
+                    <div className="vf"><label>Método</label>
+                      <select value={pform.method} onChange={e=>setPform({...pform,method:e.target.value})}>
+                        {PAY_METHODS.map(m=><option key={m}>{m}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="vf"><label>Quem paga</label>
+                    <select value={pform.payer} onChange={e=>setPform({...pform,payer:e.target.value})}>
+                      {PAYERS.map(p=><option key={p}>{p}</option>)}
+                    </select>
+                  </div>
+                  <div style={{display:'flex',gap:6,marginTop:8}}>
+                    <button className="btn bp bsm" onClick={()=>addPayment(v.id,v.name)}>Adicionar</button>
+                    <button className="btn bs bsm" onClick={()=>setShowPayForm(null)}>Cancelar</button>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+        {filtered.length===0&&<div className="empty">Nenhum fornecedor encontrado</div>}
+      </div>
+
+      {showForm&&(
+        <div className="mov" onClick={e=>{if(e.target.className==='mov'){setShowForm(false);setEditV(null)}}}>
+          <div className="mox">
+            <div className="mott">{editV?'Editar Fornecedor':'Novo Fornecedor'}</div>
+            <div className="vf"><label>Categoria *</label>
+              <select value={vform.cat} onChange={e=>setVform({...vform,cat:e.target.value})}>
+                {VENDOR_CATS.map(c=><option key={c}>{c}</option>)}
+              </select>
+            </div>
+            <div className="vf"><label>Nome do Fornecedor *</label><input value={vform.name} onChange={e=>setVform({...vform,name:e.target.value})}/></div>
+            <div className="fr2">
+              <div className="vf"><label>Status (Pipeline)</label>
+                <select value={vform.status} onChange={e=>setVform({...vform,status:e.target.value})}>
+                  {PIPELINE_STAGES.map(s=><option key={s}>{s}</option>)}
+                </select>
+              </div>
+              <div className="vf"><label>Valor Total (R$)</label>
+                <input type="number" value={vform.total||''} onChange={e=>setVform({...vform,total:Number(e.target.value)})}/>
+              </div>
+            </div>
+            <div className="vf"><label>Contato (tel / email / @)</label><input value={vform.contact} onChange={e=>setVform({...vform,contact:e.target.value})}/></div>
+            <div className="vf"><label>Notas</label><textarea value={vform.notes} onChange={e=>setVform({...vform,notes:e.target.value})} rows={2}/></div>
+            <div style={{display:'flex',gap:10,marginTop:6,alignItems:'center'}}>
+              <label style={{display:'flex',alignItems:'center',gap:5,fontSize:12,cursor:'pointer'}}>
+                <input type="checkbox" checked={vform.signed} onChange={e=>setVform({...vform,signed:e.target.checked})}/> Contrato assinado
+              </label>
+            </div>
+            <div style={{display:'flex',gap:8,marginTop:16}}>
+              <button className="btn bp" onClick={saveVendor}>{editV?'Salvar':'Adicionar'}</button>
+              <button className="btn bs" onClick={()=>{setShowForm(false);setEditV(null)}}>Cancelar</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// FINANCEIRO
+// ═══════════════════════════════════════════════════════════════
+function Financeiro({vendors,setBudgets,budgets,budgetCatsState}){
+  const [payer,setPayer]=useState('all');
+  const [tab,setTab]=useState('resumo');
+  const allPayments=vendors.flatMap(v=>v.payments||[]);
+
+  const byCategory=useMemo(()=>{
+    return (budgetCatsState||BUDGET_CATS).map(cat=>{
+      const bs=budgets||{};
+      const planned=bs[cat.id]||cat.planned;
+      const committed=vendors.filter(v=>v.budgetCat===cat.id).reduce((s,v)=>s+v.total,0);
+      const paid=allPayments.filter(p=>p.paid&&vendors.find(v=>v.id===p.vendorId&&v.budgetCat===cat.id)).reduce((s,p)=>s+p.amount,0);
+      return{...cat,planned,committed,paid,remaining:planned-committed};
+    });
+  },[vendors,budgets,allPayments]);
+
+  const totals={
+    planned:(budgetCatsState||BUDGET_CATS).reduce((s,c)=>s+c.planned,0),
+    committed:byCategory.reduce((s,c)=>s+c.committed,0),
+    paid:byCategory.reduce((s,c)=>s+c.paid,0),
+  };
+
+  // Monthly cash flow
+  const cashFlow=useMemo(()=>{
+    const months={};
+    allPayments.forEach(p=>{
+      if(!p.dueDate)return;
+      const mk=p.dueDate.substring(0,7);
+      if(!months[mk])months[mk]={due:0,paid:0,payer:{},items:[]};
+      months[mk].due+=p.amount;
+      if(p.paid)months[mk].paid+=p.amount;
+      months[mk].payer[p.payer]=(months[mk].payer[p.payer]||0)+p.amount;
+      months[mk].items.push(p);
+    });
+    return Object.entries(months).sort(([a],[b])=>a.localeCompare(b)).map(([k,v])=>({
+      month:k,
+      label:new Date(k+'-15').toLocaleDateString('pt-BR',{month:'long',year:'numeric'}),
+      ...v
+    }));
+  },[allPayments]);
+
+  // Future payments
+  const futurePays=allPayments
+    .filter(p=>!p.paid&&p.dueDate&&(payer==='all'||p.payer===payer))
+    .sort((a,b)=>a.dueDate.localeCompare(b.dueDate));
+
+  const payerTotals=useMemo(()=>{
+    const t={};
+    allPayments.forEach(p=>{t[p.payer]=(t[p.payer]||0)+p.amount});
+    return t;
+  },[allPayments]);
+
+  return(
+    <div>
+      <div className="kpi-row">
+        <div className="kpi"><div className="kpi-v" style={{color:'var(--tx)',fontSize:20}}>{fmtR(totals.planned)}</div><div className="kpi-l">Orçamento Total</div></div>
+        <div className="kpi"><div className="kpi-v" style={{color:'var(--wn)',fontSize:20}}>{fmtR(totals.committed)}</div><div className="kpi-l">Comprometido</div></div>
+        <div className="kpi"><div className="kpi-v" style={{color:'var(--ok)',fontSize:20}}>{fmtR(totals.paid)}</div><div className="kpi-l">Pago</div></div>
+        <div className="kpi"><div className="kpi-v" style={{color:totals.committed>totals.planned?'var(--er)':'var(--inf)',fontSize:20}}>{fmtR(totals.planned-totals.committed)}</div><div className="kpi-l">Disponível</div></div>
+      </div>
+
+      <div className="tbr">
+        {[['resumo','Resumo por Categoria'],['fluxo','Fluxo de Caixa'],['parcelas','Parcelas a Pagar'],['pagadores','Por Pagador']].map(([v,l])=>(
+          <button key={v} className={`tbt${tab===v?' ac':''}`} onClick={()=>setTab(v)}>{l}</button>
+        ))}
+      </div>
+
+      {tab==='resumo'&&(
+        <div>
+          <div className="card">
+            {byCategory.map(c=>(
+              <div key={c.id} style={{marginBottom:14}}>
+                <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:4}}>
+                  <div style={{display:'flex',alignItems:'center',gap:7}}>
+                    <span style={{fontSize:16}}>{c.icon}</span>
+                    <span style={{fontSize:12,fontWeight:600}}>{c.name}</span>
+                  </div>
+                  <div style={{fontSize:11,color:'var(--tm)',textAlign:'right'}}>
+                    <span style={{color:c.committed>c.planned?'var(--er)':'var(--wn)',fontWeight:600}}>{fmtR(c.committed)}</span>
+                    <span style={{color:'var(--tm)'}}> / {fmtR(c.planned)}</span>
+                    {c.paid>0&&<span style={{color:'var(--ok)',marginLeft:6}}> · pago {fmtR(c.paid)}</span>}
+                  </div>
+                </div>
+                <div className="pb" style={{height:8}}>
+                  <div className="pbf" style={{width:`${Math.min(100,c.committed/c.planned*100)}%`,background:c.committed>c.planned?'var(--er)':c.color}}/>
+                </div>
+                {c.paid>0&&<div className="pb" style={{marginTop:2,height:4}}>
+                  <div className="pbf" style={{width:`${Math.min(100,c.paid/c.planned*100)}%`,background:'var(--ok)'}}/>
+                </div>}
+                {c.committed>c.planned&&<div style={{fontSize:10,color:'var(--er)',marginTop:2}}>⚠ Excedeu orçamento em {fmtR(c.committed-c.planned)}</div>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {tab==='fluxo'&&(
+        <div className="card" style={{padding:0,overflow:'hidden'}}>
+          <table className="dt">
+            <thead><tr>
+              <th>Mês</th><th>Total Previsto</th><th>Pago</th><th>Pendente</th><th>Detalhe por Pagador</th>
+            </tr></thead>
+            <tbody>
+              {cashFlow.map((m,i)=>(
+                <tr key={i}>
+                  <td style={{fontWeight:600,textTransform:'capitalize'}}>{m.label}</td>
+                  <td style={{fontFamily:'Cormorant Garamond',fontSize:16,fontWeight:600}}>{fmtR(m.due)}</td>
+                  <td style={{color:'var(--ok)'}}>{fmtR(m.paid)}</td>
+                  <td style={{color:'var(--er)',fontWeight:600}}>{fmtR(m.due-m.paid)}</td>
+                  <td style={{fontSize:11,color:'var(--tm)'}}>
+                    {Object.entries(m.payer).map(([p,v])=>`${p}: ${fmtR(v)}`).join(' · ')}
+                  </td>
+                </tr>
+              ))}
+              {cashFlow.length===0&&<tr><td colSpan={5} className="empty">Nenhum pagamento cadastrado</td></tr>}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {tab==='parcelas'&&(
+        <div>
+          <div className="fb">
+            <button className={`fbt${payer==='all'?' ac':''}`} onClick={()=>setPayer('all')}>Todos</button>
+            {PAYERS.map(p=><button key={p} className={`fbt${payer===p?' ac':''}`} onClick={()=>setPayer(p)}>{p}</button>)}
+          </div>
+          <div className="card" style={{padding:0,overflow:'hidden'}}>
+            <table className="dt">
+              <thead><tr>
+                <th>Vencimento</th><th>Fornecedor</th><th>Descrição</th><th>Valor</th><th>Método</th><th>Pagador</th><th>Dias</th>
+              </tr></thead>
+              <tbody>
+                {futurePays.map(p=>{
+                  const d=daysUntil(fromStr(p.dueDate));
+                  return(
+                    <tr key={p.id}>
+                      <td style={{fontWeight:600}}>{fmtD(p.dueDate)}</td>
+                      <td>{p.vendorName}</td>
+                      <td>{p.label}</td>
+                      <td style={{fontFamily:'Cormorant Garamond',fontSize:15,fontWeight:600,color:'var(--rs)'}}>{fmtR(p.amount)}</td>
+                      <td><span className="tag">{p.method}</span></td>
+                      <td><span className="badge b-sb">{p.payer}</span></td>
+                      <td style={{color:d<=7?'var(--er)':d<=21?'var(--wn)':'var(--tm)',fontWeight:d<=7?600:400}}>{d}d</td>
+                    </tr>
+                  );
+                })}
+                {futurePays.length===0&&<tr><td colSpan={7} className="empty">Tudo pago ou nenhuma parcela cadastrada</td></tr>}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {tab==='pagadores'&&(
+        <div>
+          <div className="grid3">
+            {Object.entries(payerTotals).map(([p,v])=>(
+              <div key={p} className="kpi">
+                <div className="kpi-v" style={{fontSize:18,color:'var(--rs)'}}>{fmtR(v)}</div>
+                <div className="kpi-l">{p}</div>
+                <div style={{marginTop:6}}>
+                  <div className="pb">
+                    <div className="pbf" style={{width:`${(v/totals.committed*100).toFixed(0)}%`,background:'var(--rs)'}}/>
+                  </div>
+                  <div style={{fontSize:10,color:'var(--tm)',marginTop:2}}>{(v/totals.committed*100).toFixed(0)}% do total</div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="card" style={{marginTop:16}}>
+            <div className="ct">Todos os Pagamentos por Responsável</div>
+            {PAYERS.map(py=>{
+              const pys=allPayments.filter(p=>p.payer===py);
+              if(pys.length===0)return null;
+              return(
+                <div key={py} style={{marginBottom:14}}>
+                  <div style={{fontWeight:600,fontSize:13,marginBottom:6,color:'var(--tx)'}}>{py}</div>
+                  {pys.map(p=>(
+                    <div key={p.id} style={{display:'flex',gap:8,alignItems:'center',fontSize:12,padding:'4px 0',borderBottom:'1px solid var(--bd)'}}>
+                      <span style={{color:p.paid?'var(--ok)':'var(--er)',fontWeight:600}}>{p.paid?'✓':'○'}</span>
+                      <span style={{flex:1}}>{p.vendorName} — {p.label}</span>
+                      <span style={{color:'var(--tm)'}}>{fmtD(p.dueDate)}</span>
+                      <span style={{fontWeight:600}}>{fmtR(p.amount)}</span>
+                      <span className="tag">{p.method}</span>
+                    </div>
+                  ))}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// GANTT
+// ═══════════════════════════════════════════════════════════════
+function Gantt(){
+  const ps=new Date(2026,6,1),pe=new Date(2027,7,31);
+  const totalMs=pe-ps;
+  const months=[];
+  for(let y=2026;y<=2027;y++) for(let m=y===2026?6:0;m<(y===2027?8:12);m++) months.push(new Date(y,m,1));
+  function pct(s){return Math.max(0,Math.min(100,(fromStr(s)-ps)/totalMs*100))}
+  function wpct(s,e){const w=(fromStr(e)-fromStr(s))/totalMs*100;return Math.max(0.3,w)}
+  function mpct(m){return(m-ps)/totalMs*100}
+  const todayP=Math.max(0,Math.min(100,(TODAY-ps)/totalMs*100));
+  return(
+    <div>
+      <div style={{display:'flex',gap:8,flexWrap:'wrap',marginBottom:12}}>
+        {Object.entries(CAT_COLORS_G).map(([c,col])=>(
+          <div key={c} style={{display:'flex',alignItems:'center',gap:4,fontSize:10,color:'var(--tm)'}}>
+            <div style={{width:9,height:9,borderRadius:2,background:col}}/>{c}
+          </div>
+        ))}
+        <div style={{display:'flex',alignItems:'center',gap:4,fontSize:10,color:'var(--rs)',marginLeft:6}}>
+          <div style={{width:9,height:9,borderRadius:2,border:'2px solid var(--rs)'}}/> Crítico
+        </div>
+      </div>
+      <div className="card" style={{padding:0,overflow:'hidden'}}>
+        <div style={{overflowX:'auto'}}>
+          <div style={{minWidth:820}}>
+            <div className="g-hd">
+              <div style={{width:200,minWidth:200,padding:'0 10px',fontSize:9,fontWeight:700,color:'var(--tm)'}}>ATIVIDADE</div>
+              <div style={{flex:1,position:'relative',height:28}}>
+                {months.map((m,i)=>{
+                  const nxt=new Date(m.getFullYear(),m.getMonth()+1,1);
+                  const l=mpct(m),w=mpct(nxt)-l;
+                  return(
+                    <div key={i} style={{position:'absolute',left:`${l}%`,width:`${w}%`,top:0,bottom:0,display:'flex',alignItems:'center',justifyContent:'center',fontSize:9,fontWeight:700,color:'var(--tm)',borderRight:'1px solid var(--bd)',textTransform:'uppercase',letterSpacing:.5}}>
+                      {m.toLocaleDateString('pt-BR',{month:'short',year:'2-digit'})}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            {GANTT_TASKS.map(t=>(
+              <div key={t.id} className="g-row">
+                <div className={`g-lbl${t.critical?' cr':''}`} title={t.name}>
+                  {t.critical&&<span style={{color:'var(--rs)',marginRight:3,fontSize:8}}>●</span>}{t.name}
+                  {t.value>0&&<span style={{fontSize:8,color:'var(--tm)',marginLeft:3}}>{fmtR(t.value)}</span>}
+                </div>
+                <div className="g-tl">
+                  <div style={{position:'absolute',left:`${todayP}%`,top:0,bottom:0,width:1,background:'rgba(201,161,85,.5)',zIndex:1}}/>
+                  <div className={`g-bar${t.critical?' cr':''}`}
+                    style={{left:`${pct(t.start)}%`,width:`${wpct(t.start,t.end)}%`,background:CAT_COLORS_G[t.cat]||'#888',opacity:t.critical?1:.75}}
+                    title={`${t.name}: ${fmtD(t.start)} → ${fmtD(t.end)}`}>
+                    {wpct(t.start,t.end)>5&&t.name}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div style={{fontSize:11,color:'var(--tm)',marginTop:8}}>● Caminho Crítico — impacta diretamente a data do casamento. Barra dourada = hoje.</div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// FILES
+// ═══════════════════════════════════════════════════════════════
+function Files({vendors}){
+  const [files,setFiles]=useState([
+    {id:1,name:'Proposta Rappanui.pdf',vendor:'Rappanui',cat:'Orçamento',date:'2026-04-15',size:'245 KB',type:'pdf'},
+    {id:2,name:'Proposta Vila Rasa.pdf',vendor:'Vila Rasa',cat:'Orçamento',date:'2026-04-20',size:'189 KB',type:'pdf'},
+    {id:3,name:'Contrato Buffet v1.pdf',vendor:'Rappanui',cat:'Contrato',date:'2026-05-01',size:'312 KB',type:'pdf'},
+  ]);
+  const [showAdd,setShowAdd]=useState(false);
+  const [form,setForm]=useState({name:'',vendor:'',cat:'Orçamento',date:'',notes:''});
+  function addFile(){
+    if(!form.name)return;
+    const t=form.name.endsWith('.pdf')?'pdf':form.name.match(/\.(jpg|png|jpeg)/i)?'img':'doc';
+    setFiles(p=>[...p,{...form,id:Date.now(),size:'—',type:t}]);
+    setForm({name:'',vendor:'',cat:'Orçamento',date:'',notes:''});setShowAdd(false);
+  }
+  const icons={pdf:'📄',img:'🖼️',doc:'📝',other:'📦'};
+  const catColors={pdf:'#FDECEA',img:'#EAF5EA',doc:'#EAF3FE'};
+  return(
+    <div>
+      <div style={{display:'flex',justifyContent:'space-between',marginBottom:14}}>
+        <div style={{fontSize:12,color:'var(--tm)'}}>{files.length} arquivos</div>
+        <button className="btn bp" onClick={()=>setShowAdd(true)}>+ Registrar Arquivo</button>
+      </div>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(270px,1fr))',gap:12}}>
+        {files.map(f=>(
+          <div key={f.id} className="card" style={{display:'flex',gap:10,alignItems:'flex-start',padding:12}}>
+            <div className="fic" style={{background:catColors[f.type]||'#F5F0FF'}}>{icons[f.type]||'📦'}</div>
+            <div style={{flex:1,minWidth:0}}>
+              <div style={{fontSize:12,fontWeight:600,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{f.name}</div>
+              <div style={{fontSize:10,color:'var(--tm)'}}>{f.vendor&&`${f.vendor} · `}{f.cat}</div>
+              <div style={{fontSize:10,color:'var(--tm)'}}>{f.date&&fmtD(f.date)}{f.size&&` · ${f.size}`}</div>
+              {f.notes&&<div style={{fontSize:10,color:'var(--tm)',fontStyle:'italic',marginTop:2}}>{f.notes}</div>}
+            </div>
+            <button className="bdl" onClick={()=>setFiles(p=>p.filter(x=>x.id!==f.id))}>✕</button>
+          </div>
+        ))}
+      </div>
+      {showAdd&&(
+        <div className="mov" onClick={e=>{if(e.target.className==='mov')setShowAdd(false)}}>
+          <div className="mox">
+            <div className="mott">Registrar Arquivo</div>
+            <div className="vf"><label>Nome do Arquivo *</label><input value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder="Contrato Fotógrafo.pdf"/></div>
+            <div className="fr2">
+              <div className="vf"><label>Fornecedor</label>
+                <select value={form.vendor} onChange={e=>setForm({...form,vendor:e.target.value})}>
+                  <option value="">— Selecionar —</option>
+                  {vendors.map(v=><option key={v.id} value={v.name}>{v.name}</option>)}
+                </select>
+              </div>
+              <div className="vf"><label>Categoria</label>
+                <select value={form.cat} onChange={e=>setForm({...form,cat:e.target.value})}>
+                  {['Orçamento','Contrato','Comprovante','Referência','Inspiração','Outros'].map(c=><option key={c}>{c}</option>)}
+                </select>
+              </div>
+            </div>
+            <div className="vf"><label>Data</label><input type="date" value={form.date} onChange={e=>setForm({...form,date:e.target.value})}/></div>
+            <div className="vf"><label>Notas</label><input value={form.notes} onChange={e=>setForm({...form,notes:e.target.value})}/></div>
+            <p style={{fontSize:10,color:'var(--tm)',marginTop:8,fontStyle:'italic'}}>💡 Para armazenamento dos arquivos, use Google Drive ou Dropbox e registre o nome aqui como referência.</p>
+            <div style={{display:'flex',gap:8,marginTop:14}}>
+              <button className="btn bp" onClick={addFile}>Registrar</button>
+              <button className="btn bs" onClick={()=>setShowAdd(false)}>Cancelar</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SETTINGS
+// ═══════════════════════════════════════════════════════════════
+const DATE_TYPES=[{v:'deadline',l:'Prazo / Deadline'},{v:'milestone',l:'Marco / Conquista'},{v:'meeting',l:'Reunião'},{v:'payment',l:'Pagamento'},{v:'wedding',l:'Dia do Casamento'}];
+function Settings({settings,setSettings,budgetCatsState,setBudgetCatsState,importantDates,setImportantDates,setGuests,setVendors}){
+  const [stab,setStab]=useState('casamento');
+  const blankDate={id:null,date:'',label:'',type:'milestone'};
+  const [dateForm,setDateForm]=useState(blankDate);
+  const [editDateId,setEditDateId]=useState(null);
+  const [showDateAdd,setShowDateAdd]=useState(false);
+  const [impMsg,setImpMsg]=useState('');
+
+  function saveDate(){
+    if(!dateForm.date||!dateForm.label)return;
+    if(editDateId){
+      setImportantDates(p=>p.map(d=>d.id===editDateId?{...dateForm,id:editDateId}:d));
+      setEditDateId(null);
+    } else {
+      setImportantDates(p=>[...p,{...dateForm,id:Date.now()}]);
+    }
+    setDateForm(blankDate);setShowDateAdd(false);
+  }
+  function editDate(d){setEditDateId(d.id);setDateForm({...d});setShowDateAdd(true)}
+  function delDate(id){if(confirm('Remover esta data?'))setImportantDates(p=>p.filter(d=>d.id!==id))}
+
+  function exportData(){
+    try{
+      const data={settings,budgetCatsState,importantDates,guests:JSON.parse(localStorage.getItem('wg3')||'[]'),vendors:JSON.parse(localStorage.getItem('wv3')||'[]')};
+      const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+      const url=URL.createObjectURL(blob);const a=document.createElement('a');
+      a.href=url;a.download='casamento-backup.json';a.click();URL.revokeObjectURL(url);
+    }catch(e){alert('Erro ao exportar: '+e.message)}
+  }
+  function importData(e){
+    const file=e.target.files[0];if(!file)return;
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      try{
+        const data=JSON.parse(ev.target.result);
+        if(data.settings)setSettings(data.settings);
+        if(data.budgetCatsState)setBudgetCatsState(data.budgetCatsState);
+        if(data.importantDates)setImportantDates(data.importantDates);
+        if(data.guests)setGuests(data.guests);
+        if(data.vendors)setVendors(data.vendors);
+        setImpMsg('Dados importados com sucesso!');
+        setTimeout(()=>setImpMsg(''),3000);
+      }catch{alert('Arquivo inválido ou corrompido')}
+    };
+    reader.readAsText(file);
+  }
+  function resetAll(){
+    if(!confirm('Tem certeza? Todos os dados personalizados serão apagados e voltará ao padrão inicial.'))return;
+    ['wg3','wv3','ws3','wbc3','wd3','wb3'].forEach(k=>localStorage.removeItem(k));
+    window.location.reload();
+  }
+
+  const typeLabel={deadline:'🔴 Prazo',milestone:'🔵 Marco',meeting:'🟢 Reunião',payment:'🟡 Pagamento',wedding:'💍 Casamento'};
+  const sortedDates=[...importantDates].sort((a,b)=>a.date.localeCompare(b.date));
+
+  return(
+    <div>
+      <div className="tbr">
+        {[['casamento','🎊 Casamento'],['orcamento','💰 Orçamento'],['datas','📅 Datas & Prazos'],['dados','⚙️ Dados']].map(([v,l])=>(
+          <button key={v} className={`tbt${stab===v?' ac':''}`} onClick={()=>setStab(v)}>{l}</button>
+        ))}
+      </div>
+
+      {stab==='casamento'&&(
+        <div className="card">
+          <div className="ct">Informações do Casamento</div>
+          <div className="fr2">
+            <div className="vf"><label>Nome — Noiva</label><input value={settings.name1} onChange={e=>setSettings({...settings,name1:e.target.value})}/></div>
+            <div className="vf"><label>Nome — Noivo</label><input value={settings.name2} onChange={e=>setSettings({...settings,name2:e.target.value})}/></div>
+          </div>
+          <div className="vf"><label>Data do Casamento</label>
+            <input type="date" value={settings.weddingDate} onChange={e=>setSettings({...settings,weddingDate:e.target.value})}/>
+          </div>
+          <div className="vf"><label>Local / Venue</label><input value={settings.venue||''} onChange={e=>setSettings({...settings,venue:e.target.value})} placeholder="Nome do espaço..."/></div>
+          <div className="fr2">
+            <div className="vf"><label>Cidade</label><input value={settings.city||''} onChange={e=>setSettings({...settings,city:e.target.value})} placeholder="Cidade, Estado"/></div>
+            <div className="vf"><label>Convidados Estimados</label><input type="number" value={settings.estimatedGuests||0} onChange={e=>setSettings({...settings,estimatedGuests:Number(e.target.value)})}/></div>
+          </div>
+          <div className="fr2">
+            <div className="vf"><label>Cerimônia</label><input value={settings.ceremony||''} onChange={e=>setSettings({...settings,ceremony:e.target.value})} placeholder="Ao ar livre, 17h..."/></div>
+            <div className="vf"><label>Tema / Estilo</label><input value={settings.theme||''} onChange={e=>setSettings({...settings,theme:e.target.value})} placeholder="Boho chic, jardim..."/></div>
+          </div>
+          <div className="vf"><label>Notas Gerais</label><textarea value={settings.notes||''} onChange={e=>setSettings({...settings,notes:e.target.value})} rows={3} placeholder="Observações gerais..."/></div>
+          <div style={{marginTop:14,padding:'12px 14px',borderRadius:8,background:'var(--rsl)',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+            <div>
+              <div style={{fontFamily:'Cormorant Garamond',fontSize:20,color:'var(--rs)',fontStyle:'italic'}}>{settings.name1} & {settings.name2}</div>
+              <div style={{fontSize:12,color:'var(--tm)',marginTop:2}}>{settings.weddingDate&&fmtD(settings.weddingDate)}{settings.city&&` · ${settings.city}`}{settings.venue&&` · ${settings.venue}`}</div>
+            </div>
+            <div style={{textAlign:'right'}}>
+              <div style={{fontFamily:'Cormorant Garamond',fontSize:28,color:'var(--rs)',fontWeight:600}}>{settings.weddingDate?daysUntil(fromStr(settings.weddingDate)):0}</div>
+              <div style={{fontSize:9,color:'var(--tm)',textTransform:'uppercase',letterSpacing:1}}>dias restantes</div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {stab==='orcamento'&&(
+        <div className="card">
+          <div className="ct">Orçamento Planejado por Categoria</div>
+          <div style={{fontSize:12,color:'var(--tm)',marginBottom:14}}>Edite os valores planejados. Total: <b style={{color:'var(--rs)'}}>{fmtR(budgetCatsState.reduce((s,c)=>s+c.planned,0))}</b></div>
+          {budgetCatsState.map(cat=>(
+            <div key={cat.id} style={{display:'flex',alignItems:'center',gap:10,marginBottom:9,padding:'8px 10px',borderRadius:8,background:'var(--bg)'}}>
+              <span style={{fontSize:16,width:22,flexShrink:0}}>{cat.icon}</span>
+              <div style={{flex:1,fontSize:12,fontWeight:500}}>{cat.name}</div>
+              <div style={{width:6,height:6,borderRadius:'50%',background:cat.color,flexShrink:0}}/>
+              <div style={{display:'flex',alignItems:'center',gap:4}}>
+                <span style={{fontSize:11,color:'var(--tm)'}}>R$</span>
+                <input type="number" value={cat.planned}
+                  onChange={e=>setBudgetCatsState(p=>p.map(c=>c.id===cat.id?{...c,planned:Number(e.target.value)}:c))}
+                  style={{width:110,padding:'5px 8px',border:'1px solid var(--bd)',borderRadius:6,fontSize:12,textAlign:'right',background:'#fff'}}/>
+              </div>
+            </div>
+          ))}
+          <div style={{marginTop:10,padding:'10px 14px',borderRadius:8,background:'var(--rsl)',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+            <span style={{fontWeight:600,color:'var(--rs)',fontSize:13}}>Total Orçado</span>
+            <span style={{fontFamily:'Cormorant Garamond',fontSize:22,fontWeight:600,color:'var(--rs)'}}>{fmtR(budgetCatsState.reduce((s,c)=>s+c.planned,0))}</span>
+          </div>
+        </div>
+      )}
+
+      {stab==='datas'&&(
+        <div>
+          <div style={{display:'flex',justifyContent:'space-between',marginBottom:12}}>
+            <div style={{fontSize:12,color:'var(--tm)'}}>{importantDates.length} datas cadastradas</div>
+            <button className="btn bp" onClick={()=>{setEditDateId(null);setDateForm(blankDate);setShowDateAdd(true)}}>+ Nova Data</button>
+          </div>
+          {showDateAdd&&(
+            <div className="card" style={{marginBottom:14,borderColor:'var(--gd)'}}>
+              <div style={{fontSize:13,fontWeight:600,color:'var(--rs)',marginBottom:10}}>{editDateId?'Editar Data':'Nova Data Importante'}</div>
+              <div className="fr2">
+                <div className="vf"><label>Data *</label><input type="date" value={dateForm.date} onChange={e=>setDateForm({...dateForm,date:e.target.value})}/></div>
+                <div className="vf"><label>Tipo</label>
+                  <select value={dateForm.type} onChange={e=>setDateForm({...dateForm,type:e.target.value})}>
+                    {DATE_TYPES.map(t=><option key={t.v} value={t.v}>{t.l}</option>)}
+                  </select>
+                </div>
+              </div>
+              <div className="vf"><label>Descrição *</label><input value={dateForm.label} onChange={e=>setDateForm({...dateForm,label:e.target.value})} placeholder="Ex: Reunião com o fotógrafo"/></div>
+              <div style={{display:'flex',gap:8,marginTop:10}}>
+                <button className="btn bp" onClick={saveDate}>{editDateId?'Salvar':'Adicionar'}</button>
+                <button className="btn bs" onClick={()=>{setShowDateAdd(false);setEditDateId(null);setDateForm(blankDate)}}>Cancelar</button>
+              </div>
+            </div>
+          )}
+          <div className="card" style={{padding:0,overflow:'hidden'}}>
+            <table className="dt">
+              <thead><tr><th>Data</th><th>Descrição</th><th>Tipo</th><th>Dias</th><th></th></tr></thead>
+              <tbody>
+                {sortedDates.map(d=>{
+                  const days=daysUntil(fromStr(d.date));
+                  return(
+                    <tr key={d.id}>
+                      <td style={{fontWeight:600,whiteSpace:'nowrap'}}>{fmtD(d.date)}</td>
+                      <td>{d.label}</td>
+                      <td><span style={{fontSize:10}}>{typeLabel[d.type]||d.type}</span></td>
+                      <td style={{color:days<0?'var(--tm)':days<=7?'var(--er)':days<=30?'var(--wn)':'var(--ok)',fontWeight:days>=0&&days<=7?700:400,fontSize:11}}>
+                        {days<0?`há ${Math.abs(days)}d`:`${days}d`}
+                      </td>
+                      <td>
+                        <div style={{display:'flex',gap:4}}>
+                          <button className="btn bs bsm" onClick={()=>editDate(d)}>✏</button>
+                          <button className="bdl" onClick={()=>delDate(d.id)}>✕</button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {stab==='dados'&&(
+        <div>
+          <div className="grid2" style={{marginBottom:16}}>
+            <div className="card" style={{textAlign:'center'}}>
+              <div style={{fontSize:28,marginBottom:8}}>💾</div>
+              <div style={{fontSize:14,fontWeight:600,marginBottom:6}}>Exportar Backup</div>
+              <div style={{fontSize:12,color:'var(--tm)',marginBottom:12}}>Salva todos os dados em JSON para backup ou transferência.</div>
+              <button className="btn bp" onClick={exportData}>Exportar JSON</button>
+            </div>
+            <div className="card" style={{textAlign:'center'}}>
+              <div style={{fontSize:28,marginBottom:8}}>📂</div>
+              <div style={{fontSize:14,fontWeight:600,marginBottom:6}}>Importar Backup</div>
+              <div style={{fontSize:12,color:'var(--tm)',marginBottom:12}}>Restaura dados a partir de um arquivo JSON exportado.</div>
+              <label className="btn bp" style={{cursor:'pointer',display:'inline-block',padding:'7px 15px',borderRadius:8,fontSize:12,fontWeight:500}}>
+                Importar JSON <input type="file" accept=".json" onChange={importData} style={{display:'none'}}/>
+              </label>
+              {impMsg&&<div style={{marginTop:8,fontSize:12,color:'var(--ok)',fontWeight:600}}>{impMsg}</div>}
+            </div>
+          </div>
+          <div className="card">
+            <div className="ct">Informações do Armazenamento</div>
+            {[['Convidados','wg3'],['Fornecedores','wv3'],['Configurações','ws3'],['Orçamento','wbc3'],['Datas','wd3']].map(([name,key])=>{
+              let size='0 B';
+              try{const s=localStorage.getItem(key);if(s)size=`${(s.length/1024).toFixed(1)} KB`}catch{}
+              return(
+                <div key={key} style={{display:'flex',justifyContent:'space-between',padding:'6px 0',borderBottom:'1px solid var(--bd)',fontSize:12}}>
+                  <span>{name}</span><span style={{color:'var(--tm)'}}>{size}</span>
+                </div>
+              );
+            })}
+          </div>
+          <div className="card" style={{marginTop:14,borderColor:'var(--er)'}}>
+            <div className="ct" style={{color:'var(--er)'}}>Zona de Perigo</div>
+            <div style={{fontSize:12,color:'var(--tm)',marginBottom:12}}>Apaga todos os dados personalizados e retorna ao estado inicial. Esta ação não pode ser desfeita.</div>
+            <button className="btn" style={{background:'var(--er)',color:'#fff'}} onClick={resetAll}>Resetar Todos os Dados</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// APP
+// ═══════════════════════════════════════════════════════════════
+function App(){
+  const [tab,setTab]=useState('dashboard');
+  const [guests,setGuests]=useState(()=>{try{const s=localStorage.getItem('wg3');return s?JSON.parse(s):INITIAL_GUESTS}catch{return INITIAL_GUESTS}});
+  const [vendors,setVendors]=useState(()=>{try{const s=localStorage.getItem('wv3');return s?JSON.parse(s):INITIAL_VENDORS}catch{return INITIAL_VENDORS}});
+  const [budgets,setBudgets]=useState(()=>{try{const s=localStorage.getItem('wb3');return s?JSON.parse(s):{}}catch{return{}}});
+  const [settings,setSettings]=useState(()=>{try{const s=localStorage.getItem('ws3');return s?JSON.parse(s):DEFAULT_SETTINGS}catch{return DEFAULT_SETTINGS}});
+  const [budgetCatsState,setBudgetCatsState]=useState(()=>{try{const s=localStorage.getItem('wbc3');return s?JSON.parse(s):BUDGET_CATS}catch{return BUDGET_CATS}});
+  const [importantDates,setImportantDates]=useState(()=>{try{const s=localStorage.getItem('wd3');return s?JSON.parse(s):DEFAULT_IMPORTANT_DATES}catch{return DEFAULT_IMPORTANT_DATES}});
+
+  useEffect(()=>{try{localStorage.setItem('wg3',JSON.stringify(guests))}catch{}},[guests]);
+  useEffect(()=>{try{localStorage.setItem('wv3',JSON.stringify(vendors))}catch{}},[vendors]);
+  useEffect(()=>{try{localStorage.setItem('wb3',JSON.stringify(budgets))}catch{}},[budgets]);
+  useEffect(()=>{try{localStorage.setItem('ws3',JSON.stringify(settings))}catch{}},[settings]);
+  useEffect(()=>{try{localStorage.setItem('wbc3',JSON.stringify(budgetCatsState))}catch{}},[budgetCatsState]);
+  useEffect(()=>{try{localStorage.setItem('wd3',JSON.stringify(importantDates))}catch{}},[importantDates]);
+
+  const weddingDateObj=useMemo(()=>fromStr(settings.weddingDate)||new Date(2027,4,22),[settings.weddingDate]);
+  const wdFormatted=useMemo(()=>{
+    const d=weddingDateObj;
+    return `${d.getDate()} · ${d.toLocaleDateString('pt-BR',{month:'long'})} · ${d.getFullYear()}`;
+  },[weddingDateObj]);
+
+  const navs=[
+    {id:'dashboard',icon:'🏠',label:'Dashboard'},
+    {id:'guests',icon:'👥',label:'Convidados'},
+    {id:'vendors',icon:'🤝',label:'Fornecedores'},
+    {id:'financeiro',icon:'💰',label:'Financeiro'},
+    {id:'gantt',icon:'📊',label:'Cronograma'},
+    {id:'files',icon:'📁',label:'Arquivos'},
+    {id:'settings',icon:'⚙️',label:'Configurações'},
+  ];
+  const titles={dashboard:'Dashboard',guests:'Lista de Convidados',vendors:'Fornecedores CRM',financeiro:'Financeiro',gantt:'Cronograma',files:'Arquivos',settings:'Configurações'};
+  const daysLeft=daysUntil(weddingDateObj);
+  const allPays=vendors.flatMap(v=>v.payments||[]);
+  const going=guests.filter(g=>g.rsvp==='VAI CERTEZA').length;
+  const pending=allPays.filter(p=>!p.paid&&p.dueDate&&daysUntil(fromStr(p.dueDate))<=14).length;
+
+  return(
+    <div style={{display:'flex',height:'100vh',width:'100vw'}}>
+      <div className="sb">
+        <div className="sbh">
+          <h1>{settings.name1} & {settings.name2}</h1>
+          <p>{wdFormatted}</p>
+          {settings.venue&&<p style={{marginTop:3,opacity:.6}}>{settings.venue}</p>}
+        </div>
+        <div className="sbn">
+          {navs.map(n=>(
+            <div key={n.id} className={`ni${tab===n.id?' ac':''}`} onClick={()=>setTab(n.id)}>
+              <span style={{fontSize:13}}>{n.icon}</span>{n.label}
+              {n.id==='financeiro'&&pending>0&&<span style={{marginLeft:'auto',background:'var(--er)',color:'#fff',borderRadius:10,padding:'1px 6px',fontSize:9}}>{pending}</span>}
+              {n.id==='settings'&&<span style={{marginLeft:'auto',fontSize:9,color:'var(--sa)',opacity:.6}}>v3</span>}
+            </div>
+          ))}
+        </div>
+        <div className="sbf">
+          <div className="cntd">
+            <div className="cntd-d">{daysLeft}</div>
+            <div className="cntd-l">dias para o grande dia</div>
+          </div>
+          <div style={{marginTop:10,fontSize:10,color:'var(--st)',textAlign:'center',opacity:.6}}>
+            {going} confirmados · {guests.filter(g=>!g.rsvp).length} sem resposta
+          </div>
+          <div style={{marginTop:8,padding:'6px',borderRadius:6,background:'rgba(201,161,85,.1)',textAlign:'center',cursor:'pointer'}}
+            onClick={()=>setTab('settings')}>
+            <span style={{fontSize:9,color:'var(--sa)',letterSpacing:.5}}>⚙ CONFIGURAÇÕES</span>
+          </div>
+        </div>
+      </div>
+      <div className="mn">
+        <div className="mnh">
+          <h2>{titles[tab]}</h2>
+          <div style={{display:'flex',gap:10,alignItems:'center'}}>
+            {pending>0&&<div style={{background:'#FEF0EE',color:'var(--er)',fontSize:11,padding:'4px 10px',borderRadius:6}}>{pending} pagto(s) vencendo em 14 dias</div>}
+            <div style={{fontSize:11,color:'var(--tm)'}}>{fmtR(allPays.filter(p=>p.paid).reduce((s,p)=>s+p.amount,0))} pago</div>
+            <button className="btn bs bsm" onClick={()=>setTab('settings')} title="Configurações">⚙</button>
+          </div>
+        </div>
+        <div className="mc">
+          {tab==='dashboard'&&<Dashboard guests={guests} vendors={vendors} weddingDate={weddingDateObj} importantDates={importantDates}/>}
+          {tab==='guests'&&<Guests guests={guests} setGuests={setGuests}/>}
+          {tab==='vendors'&&<Vendors vendors={vendors} setVendors={setVendors}/>}
+          {tab==='financeiro'&&<Financeiro vendors={vendors} budgets={budgets} setBudgets={setBudgets} budgetCatsState={budgetCatsState}/>}
+          {tab==='gantt'&&<Gantt/>}
+          {tab==='files'&&<Files vendors={vendors}/>}
+          {tab==='settings'&&<Settings settings={settings} setSettings={setSettings} budgetCatsState={budgetCatsState} setBudgetCatsState={setBudgetCatsState} importantDates={importantDates} setImportantDates={setImportantDates} setGuests={setGuests} setVendors={setVendors}/>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
